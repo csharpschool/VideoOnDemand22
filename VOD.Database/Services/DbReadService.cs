@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using VOD.Database.Contexts;
 
@@ -19,10 +22,14 @@ namespace VOD.Database.Services
         #endregion
 
         #region Read Methods
-
-        public Task<List<TEntity>> GetAsync<TEntity>() where TEntity : class
+        public async Task<List<TEntity>> GetAsync<TEntity>() where TEntity : class
         {
-            return _db.Set<TEntity>().ToListAsync();
+            return await _db.Set<TEntity>().ToListAsync();
+        }
+
+        public async Task<List<TEntity>> GetAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class
+        {
+            return await _db.Set<TEntity>().Where(expression).ToListAsync();
         }
         #endregion
     }
