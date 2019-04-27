@@ -1,4 +1,7 @@
-﻿using VOD.Database.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using VOD.Database.Contexts;
 
 namespace VOD.Database.Services
 {
@@ -15,5 +18,12 @@ namespace VOD.Database.Services
         }
         #endregion
 
+        #region Read Methods
+
+        public Task<List<TEntity>> GetAsync<TEntity>() where TEntity : class
+        {
+            return _db.Set<TEntity>().ToListAsync();
+        }
+        #endregion
     }
 }
