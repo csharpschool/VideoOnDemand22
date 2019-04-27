@@ -31,6 +31,12 @@ namespace VOD.Database.Services
         {
             return await _db.Set<TEntity>().Where(expression).ToListAsync();
         }
+
+        public async Task<TEntity> SingleAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class
+        {
+            return await _db.Set<TEntity>().SingleOrDefaultAsync(expression);
+
+        }
         #endregion
     }
 }
