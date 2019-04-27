@@ -61,7 +61,11 @@ namespace VOD.UI
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            DbInitializer.Initialize(db);
+            // Uncomment to recreagte the database. ALL DATA WILL BE LOST !
+            //DbInitializer.RecreateDatabase(db);
+
+            //Uncomment to seed the database
+            //DbInitializer.Initialize(db);
 
             app.UseAuthentication();
 
