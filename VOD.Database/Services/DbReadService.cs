@@ -37,6 +37,10 @@ namespace VOD.Database.Services
             return await _db.Set<TEntity>().SingleOrDefaultAsync(expression);
 
         }
+        public async Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class
+        {
+            return await _db.Set<TEntity>().AnyAsync(expression);
+        }
         #endregion
     }
 }
