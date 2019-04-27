@@ -20,4 +20,9 @@
     <ProjectReference Include="..\VOD.Database\VOD.Database.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>
