@@ -1,1 +1,26 @@
-﻿
+﻿.login-register {
+    margin-top: 40px;
+}
+
+    .login-register .form-control {
+        Padding-left: 35px;
+        border-radius: 0;
+    }
+
+    .login-register .material-icons {
+        position: absolute;
+        padding: 8px;
+    }
+
+    .login-register .form-group:hover .material-icons,
+    .login-register .form-group:hover ::placeholder {
+        color: #2580db;
+        /* Some browsers dim the color on hover, 
+       use opacity to show full color */
+        opacity: 1;
+    }
+
+    .login-register button {
+        width: 100%;
+        border-radius: 0;
+    }
