@@ -5,13 +5,31 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using VOD.UI.Models;
+using Microsoft.AspNetCore.Identity;
+using VOD.Common.Entities;
+
 
 namespace VOD.UI.Controllers
 {
     public class HomeController : Controller
     {
+        #region Properties
+        private SignInManager<VODUser> _signInManager;
+        #endregion
+
+        #region Constructor
+        public HomeController(SignInManager<VODUser> signInMgr)
+        {
+            _signInManager = signInMgr;
+        }
+        #endregion
+
+        #region Actions
         public IActionResult Index()
         {
+            if (!_signInManager.IsSignedIn(User))
+                return RedirectToPage("/Account/Login", new { Area = "Identity" });
+
             return View();
         }
 
@@ -25,5 +43,6 @@ namespace VOD.UI.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        #endregion
     }
 }
