@@ -40,16 +40,27 @@ namespace VOD.Database.Services
         public async Task<Video> GetVideo(string userId, int videoId)
         {
             _db.Include<Course>();
+
             var video = await _db.SingleAsync<Video>(v => v.Id.Equals(videoId));
             if (video == null) return default;
+
             var userCourse = await _db.SingleAsync<UserCourse>(c => c.UserId.Equals(userId) && c.CourseId.Equals(video.CourseId));
             if (userCourse == null) return default;
+
             return video;
         }
 
         public async Task<IEnumerable<Video>> GetVideos(string userId, int moduleId = 0)
         {
-            throw new NotImplementedException();
+            _db.Include<Video>();
+
+            var module = await _db.SingleAsync<Module>(m => m.Id.Equals(moduleId));
+            if (module == null) return default(List<Video>);
+
+            var userCourse = await _db.SingleAsync<UserCourse>(uc => uc.UserId.Equals(userId) && uc.CourseId.Equals(module.CourseId));
+            if (userCourse == null) return default(List<Video>);
+
+            return module.Videos;
         }
         #endregion
 
