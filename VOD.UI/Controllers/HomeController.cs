@@ -31,6 +31,7 @@ namespace VOD.UI.Controllers
         {
             var courses = (await _db.GetCourses("34d49bd3-df89-4472-b6a6-f358ee92f016")).ToList();
             var course = await _db.GetCourse("34d49bd3-df89-4472-b6a6-f358ee92f016", 1);
+            var video = await _db.GetVideo("34d49bd3-df89-4472-b6a6-f358ee92f016", 1);
 
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToPage("/Account/Login", new { Area = "Identity" });
