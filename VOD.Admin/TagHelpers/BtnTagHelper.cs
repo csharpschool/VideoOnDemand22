@@ -42,6 +42,43 @@ namespace VOD.Admin.TagHelpers
             // Changes <btn> tag to <a> tag when rendered
             output.TagName = "a";
 
+            #region Bootstrap Button
+            // Fetch page and class attribute to see if they exist
+            var aspPageAttribute = context.AllAttributes.SingleOrDefault(p => p.Name.ToLower().Equals("asp-page"));
+            var classAttribute = context.AllAttributes.SingleOrDefault(p => p.Name.ToLower().Equals("class"));
+            var buttonStyle = btnDefault;
+            if (aspPageAttribute != null)
+            {
+                var pageValue = aspPageAttribute.Value.ToString().ToLower();
+                buttonStyle =
+                    pageValue.Equals("create") ? btnPrimary :
+                    pageValue.Equals("delete") ? btnDanger :
+                    pageValue.Equals("edit") ? btnSucess :
+                    pageValue.Equals("index") ? btnPrimary :
+                    pageValue.Equals("details") ? btnInfo :
+                    pageValue.Equals("/index") ? btnWarning :
+                    pageValue.Equals("error") ? btnDanger :
+                    btnDefault;
+            }
+
+            var bootstrapClasses = $"btn-sm {buttonStyle}";
+
+            if (classAttribute != null)
+            {
+                var css = classAttribute.Value.ToString();
+                if (!css.ToLower().Contains("btn-"))
+                {
+                    output.Attributes.Remove(classAttribute);
+                    classAttribute = new TagHelperAttribute("class", $"{css} {bootstrapClasses}");
+                    output.Attributes.Add(classAttribute);
+                }
+            }
+            else
+            {
+                output.Attributes.Add("class", bootstrapClasses);
+            }
+            #endregion
+
             base.Process(context, output);
         }
     }
