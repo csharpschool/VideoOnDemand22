@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Razor.Runtime.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace VOD.Admin.TagHelpers
@@ -91,12 +88,12 @@ namespace VOD.Admin.TagHelpers
             #endregion
 
             #region Style Attribute
+            // Fetch style attribute if it exist
             var style = context.AllAttributes.SingleOrDefault(s => s.Name.ToLower().Equals("style"));
             var styleValue = style == null ? "" : style.Value;
             var newStyle = new TagHelperAttribute("style", $"{styleValue} display:inline-flex;border-radius:0px;text-decoration: none;");
             if (style != null) output.Attributes.Remove(style);
             output.Attributes.Add(newStyle);
-
             #endregion
 
             base.Process(context, output);
