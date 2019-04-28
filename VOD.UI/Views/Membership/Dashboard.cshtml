@@ -5,4 +5,15 @@
 }
 
 <h1>Dashboard</h1>
+<hr>
+@foreach (var dashboardRow in Model.Courses)
+{
+    <div class="row">
+        @foreach (var course in dashboardRow)
+        {
+            <h4>@course.CourseTitle</h4>
+        }
+    </div>
+}
+
 
