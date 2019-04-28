@@ -27,6 +27,11 @@
         {
             <partial name="_VideoComingUpPartial" model="@Model.LessonInfo" />
         }
+
+        @if (Model != null && Model.Instructor != null)
+        {
+            <partial name="_InstructorBioPartial" model="@Model.Instructor" />
+        }
     </div>
 </div>
 
