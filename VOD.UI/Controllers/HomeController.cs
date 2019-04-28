@@ -30,7 +30,7 @@ namespace VOD.UI.Controllers
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToPage("/Account/Login", new { Area = "Identity" });
 
-            return View();
+            return RedirectToAction("Dashboard", "Membership");
         }
 
         public IActionResult Privacy()
