@@ -1,0 +1,49 @@
+﻿@model LessonInfoDTO
+
+@if (Model.PreviousVideoId > 0 || Model.NextVideoId > 0)
+{
+    <div class="card coming-up no-border-radius">
+        @if (Model.NextVideoId == 0)
+        {
+            <img src="@Model.CurrentVideoThumbnail" class="img-responsive">
+        }
+        else
+        {
+            <img src="@Model.NextVideoThumbnail" class="img-responsive">
+        }
+
+        <div class="card-body">
+            @if (Model.NextVideoId == 0)
+            {
+                <p>COURSE COMPLETED</p>
+                <h5>@Model.CurrentVideoTitle</h5>
+            }
+            else
+            {
+                <p>COMING UP</p>
+                <h5>@Model.NextVideoTitle</h5>
+            }
+
+            <div class="btn-group" role="group">
+                @if (Model.PreviousVideoId == 0)
+                {
+                    <a class="btn" disabled>Previous</a>
+                }
+                else
+                {
+                    <a class="btn btn-default" href="~/Membership/Video/@Model.PreviousVideoId">Previous</a>
+                }
+
+                @if (Model.NextVideoId == 0)
+                {
+                    <a class="btn" disabled>Next</a>
+                }
+                else
+                {
+                    <a class="btn btn-default" href="~/Membership/Video/@Model.NextVideoId">Next</a>
+                }
+
+            </div>
+        </div>
+    </div>
+}
