@@ -4,5 +4,12 @@
     ViewData["Title"] = "Video";
 }
 
-<h1>Video</h1>
+<div class="row small-bottom-margin">
+    <div class="col-sm-12">
+        <a class="btn btn-primary no-border-radius no-left-padding" asp-action="Course" asp-route-id="@Model.Course.CourseId">
+            <i class="material-icons vertical-align no-left-margin">keyboard_arrow_left</i><span class="vertical-align">Back to @Model.Course.CourseTitle</span>
+        </a>
+    </div>
+</div>
+
 
