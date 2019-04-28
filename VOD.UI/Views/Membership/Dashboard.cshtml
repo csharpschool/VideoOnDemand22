@@ -11,7 +11,8 @@
     <div class="row">
         @foreach (var course in dashboardRow)
         {
-            <h4>@course.CourseTitle</h4>
+            <partial name="_CourseCardPartial" model="@course" />
+            @*@await Html.PartialAsync("_CourseCardPartial", course)*@
         }
     </div>
 }
