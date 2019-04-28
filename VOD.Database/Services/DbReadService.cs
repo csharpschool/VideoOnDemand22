@@ -55,6 +55,18 @@ namespace VOD.Database.Services
             Include<TEntity1>();
             Include<TEntity2>();
         }
+
+        public (int courses, int downloads, int instructors, int modules, int videos, int users) Count()
+        {
+            return (
+                courses: _db.Courses.Count(),
+                downloads: _db.Downloads.Count(),
+                instructors: _db.Instructors.Count(),
+                modules: _db.Modules.Count(),
+                videos: _db.Videos.Count(),
+                users: _db.Users.Count());
+
+        }
         #endregion
     }
 }
