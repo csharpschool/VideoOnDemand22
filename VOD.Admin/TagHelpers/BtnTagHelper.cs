@@ -79,6 +79,26 @@ namespace VOD.Admin.TagHelpers
             }
             #endregion
 
+            #region Icon
+            if (!Icon.Equals(string.Empty))
+            {
+                var childContext = output.GetChildContentAsync().Result;
+                var content = childContext.GetContent().Trim();
+                if (content.Length > 0) content = $"&nbsp{content}";
+
+                output.Content.SetHtmlContent($"<i class='{iconProvider}' style='display: inline-flex; vertical-align: top; line-height: inherit;font-size: medium;'>{Icon}</i> <span style='font-size: medium;'>{content}</span>");
+            }
+            #endregion
+
+            #region Style Attribute
+            var style = context.AllAttributes.SingleOrDefault(s => s.Name.ToLower().Equals("style"));
+            var styleValue = style == null ? "" : style.Value;
+            var newStyle = new TagHelperAttribute("style", $"{styleValue} display:inline-flex;border-radius:0px;text-decoration: none;");
+            if (style != null) output.Attributes.Remove(style);
+            output.Attributes.Add(newStyle);
+
+            #endregion
+
             base.Process(context, output);
         }
     }
