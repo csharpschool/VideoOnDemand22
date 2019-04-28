@@ -31,6 +31,15 @@
 <div class="row">
     <div class="col-md-9">
         @*Add modules here*@
+        @foreach (var module in Model.Modules)
+        {
+        <div class="card small-top-margin no-border-radius">
+            <div class="card-body">
+                <h5>@module.ModuleTitle</h5>
+            </div>
+            <hr class="no-margin">
+        </div>
+        }
     </div>
     <div class="col-md-3">
         @*Add instructor bio here*@
