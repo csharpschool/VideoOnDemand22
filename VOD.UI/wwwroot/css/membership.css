@@ -6,6 +6,10 @@
     padding-left: 0;
 }
 
+.no-right-padding {
+    padding-right: 0;
+}
+
 .no-top-padding {
     padding-top: 0;
 }
@@ -104,3 +108,20 @@
         height: 120px;
         width: 120px;
     }
+
+.video-player {
+    position: relative !important;
+    padding-top: 56.25% !important;
+}
+
+    .video-player iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+.video-course img {
+    width: 50px;
+}
