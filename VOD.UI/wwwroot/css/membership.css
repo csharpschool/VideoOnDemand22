@@ -93,3 +93,14 @@
     padding: 0;
 }
 
+.instructor-bio {
+    text-align: center;
+    margin-top: 10px;
+}
+
+    .instructor-bio .rounded-circle {
+        border: 2px solid #2d91fb;
+        padding: 8px;
+        height: 120px;
+        width: 120px;
+    }
