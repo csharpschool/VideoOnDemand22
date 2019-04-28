@@ -125,3 +125,21 @@
 .video-course img {
     width: 50px;
 }
+
+.coming-up .btn-group {
+    width: 100%;
+}
+
+    .coming-up .btn-group .btn {
+        width: 50%;
+        border-radius: 0;
+    }
+
+    .coming-up .btn-group [disabled]:hover {
+        cursor: not-allowed;
+    }
+
+.coming-up img {
+    width: 100%;
+    height: auto;
+}
