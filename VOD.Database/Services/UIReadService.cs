@@ -23,7 +23,10 @@ namespace VOD.Database.Services
         #region Methods
         public async Task<Course> GetCourse(string userId, int courseId)
         {
-            throw new NotImplementedException();
+            _db.Include<Course, Module>();
+            var userCourse = await _db.SingleAsync<UserCourse>(c => c.UserId.Equals(userId) && c.CourseId.Equals(courseId));
+            if (userCourse == null) return default;
+            return userCourse.Course;
         }
 
         public async Task<IEnumerable<Course>> GetCourses(string userId)
