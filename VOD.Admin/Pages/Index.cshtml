@@ -1,7 +1,25 @@
 ﻿@page
+@inject SignInManager<VODUser> SignInManager
 @model IndexModel
 @{
     ViewData["Title"] = "Dashboard";
 }
 
-    <partial name="_CardPartial" for="Cards.Instructors" />
+<br />
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+    <div class="row">
+        <div class="offset-sm-2 col-sm-8 offset-md-4 col-md-6">
+            <partial name="_CardPartial" for="Cards.Instructors" />
+            <partial name="_CardPartial" for="Cards.Users" />
+        </div>
+        <div class="offset-sm-2 col-sm-8 offset-md-4 col-md-6">
+            <partial name="_CardPartial" for="Cards.Courses" />
+            <partial name="_CardPartial" for="Cards.Modules" />
+        </div>
+        <div class="offset-sm-2 col-sm-8 offset-md-4 col-md-6">
+            <partial name="_CardPartial" for="Cards.Videos" />
+            <partial name="_CardPartial" for="Cards.Downloads" />
+        </div>
+    </div>
+}
