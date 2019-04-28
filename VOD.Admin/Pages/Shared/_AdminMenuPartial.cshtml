@@ -1,0 +1,17 @@
+﻿@inject SignInManager<VODUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/Instructors/Index">Instructors</a>
+            <a class="dropdown-item" href="/Users/Index">Users</a>
+            <a class="dropdown-item" href="/Courses/Index">Courses</a>
+            <a class="dropdown-item" href="/Modules/Index">Modules</a>
+            <a class="dropdown-item" href="/Downloads/Index">Downloads</a>
+            <a class="dropdown-item" href="/Videos/Index">Videos</a>
+        </div>
+    </li>
+
+}
