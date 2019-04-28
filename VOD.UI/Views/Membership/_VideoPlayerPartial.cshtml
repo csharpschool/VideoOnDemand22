@@ -1,0 +1,28 @@
+﻿@model VideoViewModel
+
+<div class="card no-border-radius">
+    @if (Model.Video.Url != null)
+    {
+        <div class="video-player">
+            <iframe src="@Model.Video.Url" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    }
+    <div class="card-body">
+        <h2>@Model.Video.Title</h2>
+        <p class="text-muted">
+            <i class="material-icons vertical-align text-small">movie</i>
+            Lesson @Model.LessonInfo.LessonNumber/
+            @Model.LessonInfo.NumberOfLessons&nbsp;&nbsp;
+            <i class="material-icons vertical-align text-small">alarm</i>
+            @Model.Video.Duration minutes
+        </p>
+        <div class="video-course">
+            <img src="@Model.Course.CourseImageUrl">
+            <span class="vertical-align text-large">@Model.Course.CourseTitle</span>
+        </div>
+        <hr class="no-margin">
+        <div class="card-body">
+            @Model.Video.Description
+        </div>
+    </div>
+</div>

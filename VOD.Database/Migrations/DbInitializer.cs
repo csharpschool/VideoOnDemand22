@@ -173,31 +173,31 @@ namespace VOD.Database.Migrations
                             Title = "Video 1 Title",
                             Description = description.Substring(1, 35),
                             Duration = 50, Thumbnail = "/images/video1.jpg",
-                            Url = "https://www.youtube.com/watch?v=BJFyzpBcaCY"
+                            Url = "https://www.youtube.com/embed/BJFyzpBcaCY"
                         },
                         new Video { ModuleId = moduleId1, CourseId = courseId1,
                             Title = "Video 2 Title",
                             Description = description.Substring(5, 35),
                             Duration = 45, Thumbnail = "/images/video2.jpg",
-                            Url = "https://www.youtube.com/watch?v=BJFyzpBcaCY"
+                            Url = "https://www.youtube.com/embed/BJFyzpBcaCY"
                         },
                         new Video { ModuleId = moduleId1, CourseId = courseId1,
                             Title = "Video 3 Title",
                             Description = description.Substring(10, 35),
                             Duration = 41, Thumbnail = "/images/video3.jpg",
-                            Url = "https://www.youtube.com/watch?v=BJFyzpBcaCY"
+                            Url = "https://www.youtube.com/embed/BJFyzpBcaCY"
                         },
                         new Video { ModuleId = moduleId3, CourseId = courseId2,
                             Title = "Video 4 Title",
                             Description = description.Substring(15, 35),
                             Duration = 41, Thumbnail = "/images/video4.jpg",
-                            Url = "https://www.youtube.com/watch?v=BJFyzpBcaCY"
+                            Url = "https://www.youtube.com/embed/BJFyzpBcaCY"
                         },
                         new Video { ModuleId = moduleId2, CourseId = courseId1,
                             Title = "Video 5 Title",
                             Description = description.Substring(20, 35),
                             Duration = 42, Thumbnail = "/images/video5.jpg",
-                            Url = "https://www.youtube.com/watch?v=BJFyzpBcaCY"
+                            Url = "https://www.youtube.com/embed/BJFyzpBcaCY"
                         }
                     };
                     context.Videos.AddRange(videos);
