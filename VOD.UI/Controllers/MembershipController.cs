@@ -48,13 +48,22 @@ namespace VOD.UI.Controllers
             return View(dashboardModel);
         }
 
-
-
-
         [HttpGet]
         public async Task<IActionResult> Course(int id)
         {
-            return View();
+            var course = await _db.GetCourse(_userId, id);
+            var mappedCourseDTO = _mapper.Map<CourseDTO>(course);
+            var mappedInstructorDTO = _mapper.Map<InstructorDTO>(course.Instructor);
+            var mappedModuleDTOs = _mapper.Map<List<ModuleDTO>>(course.Modules);
+
+            var courseModel = new CourseViewModel
+            {
+                Course = mappedCourseDTO,
+                Instructor = mappedInstructorDTO,
+                Modules = mappedModuleDTOs
+            };
+
+            return View(courseModel);
         }
 
         [HttpGet]
