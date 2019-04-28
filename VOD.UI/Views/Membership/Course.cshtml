@@ -38,6 +38,11 @@
                 <h5>@module.ModuleTitle</h5>
             </div>
             <hr class="no-margin">
+            @if (module.Videos != null && module.Videos.Count > 0)
+            {
+                <partial name="_ModuleVideosPartial" model="@module.Videos" />
+            }
+
         </div>
         }
     </div>

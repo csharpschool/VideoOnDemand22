@@ -1,0 +1,25 @@
+﻿@model IEnumerable<VideoDTO>
+
+@foreach (var video in Model)
+{
+    <div class="card-body module-video">
+        <a href="~/Membership/Video/@video.Id" class="no-text-decoration">
+            <div class="media">
+                <div class="media-left hidden-xs overflow-hidden">
+                    <img src="@video.Thumbnail" width="100">
+                </div>
+                <div class="media-body">
+                    <h5 class="no-margin">@video.Title</h5>
+                    <p class="text-muted no-margin">
+                        <i class="material-icons vertical-align text-small">alarm</i>
+                        <span class="vertical-align text-small">
+                            @video.Duration minutes
+                        </span>
+                    </p>
+                    <p class="no-margin">@video.Description</p>
+                </div>
+            </div>
+        </a>
+
+    </div>
+}
