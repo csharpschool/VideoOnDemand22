@@ -69,7 +69,41 @@ namespace VOD.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> Video(int id)
         {
-            return View();
+            var video = await _db.GetVideo(_userId, id);
+            var course = await _db.GetCourse(_userId, video.CourseId);
+            var videoDTO = _mapper.Map<VideoDTO>(video);
+            var courseDTO = _mapper.Map<CourseDTO>(course);
+            var instructorDTO = _mapper.Map<InstructorDTO>(course.Instructor);
+
+            var videos = (await _db.GetVideos(_userId, video.ModuleId)).OrderBy(o => o.Id).ToList();
+            var count = videos.Count();
+            var index = videos.FindIndex(v => v.Id.Equals(id));
+
+            var previous = videos.ElementAtOrDefault(index - 1);
+            var previousId = previous == null ? 0 : previous.Id;
+
+            var next = videos.ElementAtOrDefault(index + 1);
+            var nextId = next == null ? 0 : next.Id;
+            var nextTitle = next == null ? string.Empty : next.Title;
+            var nextThumb = next == null ? string.Empty : next.Thumbnail;
+
+            var videoModel = new VideoViewModel
+            {
+                Video = videoDTO,
+                Instructor = instructorDTO,
+                Course = courseDTO,
+                LessonInfo = new LessonInfoDTO
+                {
+                    LessonNumber = index + 1,
+                    NumberOfLessons = count,
+                    NextVideoId = nextId,
+                    PreviousVideoId = previousId,
+                    NextVideoTitle = nextTitle,
+                    NextVideoThumbnail = nextThumb
+                }
+            };
+
+            return View(videoModel);
         }
         #endregion
 
