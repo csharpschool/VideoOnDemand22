@@ -14,18 +14,20 @@ namespace VOD.UI.Controllers
     public class HomeController : Controller
     {
         #region Properties
-        private SignInManager<VODUser> _signInManager;
+        private readonly SignInManager<VODUser> _signInManager;
+        private readonly IUIReadService _db;
         #endregion
 
         #region Constructor
-        public HomeController(SignInManager<VODUser> signInMgr)
+        public HomeController(SignInManager<VODUser> signInMgr, IUIReadService db)
         {
             _signInManager = signInMgr;
+            _db = db;
         }
         #endregion
 
         #region Actions
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             if (!_signInManager.IsSignedIn(User))
                 return RedirectToPage("/Account/Login", new { Area = "Identity" });
