@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VOD.Common.Entities;
@@ -20,22 +21,25 @@ namespace VOD.Database.Services
         #endregion
 
         #region Methods
-        public Task<Course> GetCourse(string userId, int courseId)
+        public async Task<Course> GetCourse(string userId, int courseId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Course>> GetCourses(string userId)
+        public async Task<IEnumerable<Course>> GetCourses(string userId)
+        {
+            _db.Include<UserCourse>();
+            var userCourses = await _db.GetAsync<UserCourse>(uc => uc.UserId.Equals(userId));
+            return userCourses.Select(c => c.Course);
+
+        }
+
+        public async Task<Video> GetVideo(string userId, int videoId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Video> GetVideo(string userId, int videoId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Video>> GetVideos(string userId, int moduleId = 0)
+        public async Task<IEnumerable<Video>> GetVideos(string userId, int moduleId = 0)
         {
             throw new NotImplementedException();
         }
