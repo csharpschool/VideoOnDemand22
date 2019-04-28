@@ -1,0 +1,51 @@
+﻿.no-border-radius {
+    border-radius: 0;
+}
+
+.no-left-padding {
+    padding-left: 0;
+}
+
+.no-top-padding {
+    padding-top: 0;
+}
+
+.no-bottom-padding {
+    padding-bottom: 0;
+}
+
+.vertical-align {
+    vertical-align: middle;
+}
+
+.small-bottom-margin {
+    margin-bottom: 10px;
+}
+
+.small-top-margin {
+    margin-top: 10px;
+}
+
+.small-left-margin {
+    margin-left: 10px;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.text-small {
+    font-size: small;
+}
+
+.text-large {
+    font-size: larger;
+}
+
+.no-text-decoration {
+    text-decoration: none;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
