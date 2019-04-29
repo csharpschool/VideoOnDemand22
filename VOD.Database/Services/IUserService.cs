@@ -14,6 +14,6 @@ namespace VOD.Database.Services
         Task<IdentityResult> AddUserAsync(RegisterUserDTO user);
         Task<bool> UpdateUserAsync(UserDTO user);
         Task<bool> DeleteUserAsync(string userId);
-        Task<VODUser> GetUserAsync(LoginUserDTO loginUser);
+        Task<VODUser> GetUserAsync(LoginUserDTO loginUser, bool includeClaims = false);
     }
 }

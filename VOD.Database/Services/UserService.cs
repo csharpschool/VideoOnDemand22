@@ -113,7 +113,7 @@ namespace VOD.Database.Services
                 return false;
             }
         }
-        public async Task<VODUser> GetUserAsync(LoginUserDTO loginUser)
+        public async Task<VODUser> GetUserAsync(LoginUserDTO loginUser, bool includeClaims = false)
         {
             try
             {
@@ -129,6 +129,8 @@ namespace VOD.Database.Services
                 {
                     if (!user.PasswordHash.Equals(loginUser.PasswordHash)) return null;
                 }
+
+                if (includeClaims) user.Claims = await _userManager.GetClaimsAsync(user);
 
                 return user;
             }
