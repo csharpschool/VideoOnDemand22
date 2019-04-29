@@ -42,6 +42,17 @@ namespace VOD.Database.Services
                 throw;
             }
         }
+        public void Delete<TEntity>(TEntity item) where TEntity : class
+        {
+            try
+            {
+                _db.Set<TEntity>().Remove(item);
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         #endregion
     }
