@@ -91,6 +91,27 @@ namespace VOD.Database.Services
             var result = await _db.SaveChangesAsync();
             return result >= 0;
         }
+        public async Task<bool> DeleteUserAsync(string userId)
+        {
+            try
+            {
+                // Fetch user
+                var dbUser = await _userManager.FindByIdAsync(userId);
+                if (dbUser == null) return false;
+
+                // Remove roles from user
+                var userRoles = await _userManager.GetRolesAsync(dbUser);
+                var roleRemoved = await _userManager.RemoveFromRolesAsync(dbUser, userRoles);
+
+                // Remove the user
+                var deleted = await _userManager.DeleteAsync(dbUser);
+                return deleted.Succeeded;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         #endregion
     }
