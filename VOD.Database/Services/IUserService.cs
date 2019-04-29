@@ -8,5 +8,6 @@ namespace VOD.Database.Services
     {
         Task<IEnumerable<UserDTO>> GetUsersAsync();
         Task<UserDTO> GetUserAsync(string userId);
+        Task<UserDTO> GetUserEmailAsync(string email);
     }
 }

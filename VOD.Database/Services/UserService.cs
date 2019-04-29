@@ -53,6 +53,20 @@ namespace VOD.Database.Services
                 })
             ).FirstOrDefaultAsync(u => u.Id.Equals(userId));
         }
+        public async Task<UserDTO> GetUserEmailAsync(string email)
+        {
+            return await(_db.Users
+                .Select(user => new UserDTO
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    IsAdmin = _db.UserRoles.Any(ur =>
+                        ur.UserId.Equals(user.Id) &&
+                        ur.RoleId.Equals(1.ToString()))
+                })
+            ).FirstOrDefaultAsync(u => u.Email.Equals(email));
+        }
+
         #endregion
     }
 }
