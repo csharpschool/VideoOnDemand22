@@ -66,6 +66,12 @@ namespace VOD.Database.Services
                 })
             ).FirstOrDefaultAsync(u => u.Email.Equals(email));
         }
+        public async Task<IdentityResult> AddUserAsync(RegisterUserDTO user)
+        {
+            var dbUser = new VODUser { UserName = user.Email, Email = user.Email, EmailConfirmed = true };
+            var result = await _userManager.CreateAsync(dbUser, user.Password);
+            return result;
+        }
 
         #endregion
     }
