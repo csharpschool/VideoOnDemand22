@@ -8,6 +8,12 @@
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
 {
     <div class="row">
+        <div class="col-md-8 offset-md-2" style="padding-left:0; padding-right:0;">
+            <alert alert-type="success">@Model.Alert</alert>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-8 offset-md-2">
             <h1>@ViewData["Title"]</h1>
             <partial name="_PageButtonsPartial" />
