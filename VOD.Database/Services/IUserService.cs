@@ -7,5 +7,6 @@ namespace VOD.Database.Services
     public interface IUserService
     {
         Task<IEnumerable<UserDTO>> GetUsersAsync();
+        Task<UserDTO> GetUserAsync(string userId);
     }
 }

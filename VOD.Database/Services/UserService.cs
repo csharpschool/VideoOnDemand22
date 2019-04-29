@@ -40,6 +40,19 @@ namespace VOD.Database.Services
                 ).ToListAsync();
 
         }
+        public async Task<UserDTO> GetUserAsync(string userId)
+        {
+            return await(_db.Users
+                .Select(user => new UserDTO
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    IsAdmin = _db.UserRoles.Any(ur =>
+                        ur.UserId.Equals(user.Id) &&
+                        ur.RoleId.Equals(1.ToString()))
+                })
+            ).FirstOrDefaultAsync(u => u.Id.Equals(userId));
+        }
         #endregion
     }
 }
