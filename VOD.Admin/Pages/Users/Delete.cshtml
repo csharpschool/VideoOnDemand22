@@ -1,8 +1,8 @@
 ﻿@page
-@model EditModel
+@model DeleteModel
 @inject SignInManager<VODUser> SignInManager
 @{
-    ViewData["Title"] = "Edit User";
+    ViewData["Title"] = "Delete User";
 }
 
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -11,23 +11,23 @@
         <div class="col-md-8 offset-md-2">
             <h1>@ViewData["Title"]</h1>
             <partial name="_BackToIndexButtonsPartial" />
-            <p></p>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>@Html.DisplayNameFor(model => model.Input.Id)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Id)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.Email)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Email)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.IsAdmin)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.IsAdmin)</dd>
+            </dl>
+
             <form method="post">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <input type="hidden" asp-for="Input.Id" />
+                <input type="hidden" asp-for="Input.Email" />
+                <input type="hidden" asp-for="Input.IsAdmin" />
 
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.IsAdmin"></label>
-                    <input asp-for="Input.IsAdmin" class="form-control" />
-                    <span asp-validation-for="Input.IsAdmin" class="text-danger"></span>
-                </div>
-
-                <button type="submit" class="btn btn-success">Save</button>
+                <button type="submit" class="btn btn-danger">Delete </button>
             </form>
 
         </div>
