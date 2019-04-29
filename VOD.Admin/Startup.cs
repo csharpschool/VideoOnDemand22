@@ -16,6 +16,7 @@ using VOD.Database.Contexts;
 using VOD.Common.Entities;
 using VOD.Database.Services;
 using VOD.Common.Services;
+using AutoMapper;
 
 namespace VOD.Admin
 {
@@ -48,6 +49,7 @@ namespace VOD.Admin
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddAutoMapper();
             services.AddScoped<IDbReadService, DbReadService>();
             services.AddScoped<IDbWriteService, DbWriteService>();
             services.AddScoped<IUserService, UserService>();
