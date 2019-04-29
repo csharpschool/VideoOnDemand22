@@ -72,6 +72,25 @@ namespace VOD.Database.Services
             var result = await _userManager.CreateAsync(dbUser, user.Password);
             return result;
         }
+        public async Task<bool> UpdateUserAsync(UserDTO user)
+        {
+            var dbUser = await _db.Users.FirstOrDefaultAsync(u => u.Id.Equals(user.Id));
+            if (dbUser == null) return false;
+            if (string.IsNullOrEmpty(user.Email)) return false;
+
+            dbUser.Email = user.Email;
+
+            #region Admin Role
+            var admin = "Admin";
+            var isAdmin = await _userManager.IsInRoleAsync(dbUser, admin);
+
+            if (isAdmin && !user.IsAdmin) await _userManager.RemoveFromRoleAsync(dbUser, admin);
+            else if (!isAdmin && user.IsAdmin) await _userManager.AddToRoleAsync(dbUser, admin);
+            #endregion
+
+            var result = await _db.SaveChangesAsync();
+            return result >= 0;
+        }
 
         #endregion
     }
