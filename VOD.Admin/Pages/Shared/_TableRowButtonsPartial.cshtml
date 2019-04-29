@@ -1,0 +1,13 @@
+﻿@model ButtonDTO
+
+<btn class="float-right"
+     asp-page="Delete" icon="close"
+     asp-route-id="@Model.ItemId"
+     asp-route-courseId="@Model.CourseId"
+     asp-route-moduleId="@Model.ModuleId"></btn>
+
+<btn class="float-right" style="margin-right:5px;"
+     asp-page="Edit" icon="edit"
+     asp-route-id="@Model.ItemId"
+     asp-route-courseId="@Model.CourseId"
+     asp-route-moduleId="@Model.ModuleId"></btn>
