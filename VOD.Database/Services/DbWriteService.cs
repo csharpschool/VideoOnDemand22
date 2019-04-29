@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using VOD.Database.Contexts;
 
 namespace VOD.Database.Services
@@ -15,6 +16,21 @@ namespace VOD.Database.Services
         public DbWriteService(VODContext db)
         {
             _db = db;
+        }
+
+        #endregion
+
+        #region Methods
+        public async Task<bool> SaveChangesAsync()
+        {
+            try
+            {
+                return await _db.SaveChangesAsync() >= 0;
+            }
+            catch
+            {
+                return false;
+            }
         }
         #endregion
     }
