@@ -1,8 +1,68 @@
 ﻿@page
-@model VOD.Admin.Pages.Users.DetailsModel
+@model DetailsModel
+@inject SignInManager<VODUser> SignInManager
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2>@ViewData["Title"] for @Model.Customer.Email</h2>
+            <partial name="_BackToIndexButtonsPartial" />
+            @if (Model.AvailableCourses.Count() > 0)
+            {
+                <form method="post" style="margin:20px 0px;">
+                    <input type="hidden" asp-for="Customer.Id" name="userId" />
 
+                    <div class="form-group">
+                        <label asp-for="CourseId" class="control-label"></label>
+
+                        <div class=" input-group">
+                            <select asp-for="CourseId" class="form-control" asp-items="@Model.AvailableCourses"></select>
+                            <div class="input-group-append">
+                                <button type="submit" asp-page-handler="Add" class="btn btn-success">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            }
+
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <table style="margin-top:20px;" class="table">
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var course in Model.Courses)
+                    {
+                        <tr>
+                            <td style="vertical-align:middle">
+                                @Html.DisplayFor(modelItem => course.Title)
+                            </td>
+                            <td style="width:110px;">
+                                <form method="post">
+                                    <input type="hidden" asp-for="Customer.Id" name="userId" />
+                                    <input type="hidden" asp-for="@course.Id" name="courseId" />
+                                    <button type="submit" asp-page-handler="Remove" class="btn btn-danger float-right">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+}
