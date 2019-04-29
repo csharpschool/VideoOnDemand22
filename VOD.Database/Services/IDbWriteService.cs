@@ -10,5 +10,6 @@ namespace VOD.Database.Services
         Task<bool> SaveChangesAsync();
         void Add<TEntity>(TEntity item) where TEntity : class;
         void Delete<TEntity>(TEntity item) where TEntity : class;
+        void Update<TEntity>(TEntity item) where TEntity : class;
     }
 }

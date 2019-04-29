@@ -53,7 +53,21 @@ namespace VOD.Database.Services
                 throw;
             }
         }
+        public void Update<TEntity>(TEntity item) where TEntity : class
+        {
+            try
+            {
+                var entity = _db.Find<TEntity>(item.GetType().GetProperty("Id").GetValue(item));
+                if (entity != null) _db.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                
+                _db.Set<TEntity>().Update(item);
+            }
+            catch
+            {
+                throw;
+            }
 
+        }
         #endregion
     }
 }
