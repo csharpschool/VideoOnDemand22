@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace VOD.Common.DTOModels.Admin
+﻿namespace VOD.Common.DTOModels.Admin
 {
     public class ButtonDTO
     {
