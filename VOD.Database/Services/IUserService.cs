@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using VOD.Common.DTOModels;
+using VOD.Common.Entities;
 
 namespace VOD.Database.Services
 {
@@ -13,5 +14,6 @@ namespace VOD.Database.Services
         Task<IdentityResult> AddUserAsync(RegisterUserDTO user);
         Task<bool> UpdateUserAsync(UserDTO user);
         Task<bool> DeleteUserAsync(string userId);
+        Task<VODUser> GetUserAsync(LoginUserDTO loginUser);
     }
 }

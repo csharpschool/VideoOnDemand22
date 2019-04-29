@@ -6,6 +6,7 @@ using VOD.Common.Entities;
 using VOD.Database.Contexts;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using VOD.Common.Extensions;
 
 namespace VOD.Database.Services
 {
@@ -112,7 +113,30 @@ namespace VOD.Database.Services
                 return false;
             }
         }
+        public async Task<VODUser> GetUserAsync(LoginUserDTO loginUser)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(loginUser.Email);
+                if (user == null) return null;
+                if (loginUser.Password.IsNullOrEmptyOrWhiteSpace() && loginUser.PasswordHash.IsNullOrEmptyOrWhiteSpace()) return null;
+                if (loginUser.Password.Length > 0)
+                {
+                    var password = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash,loginUser.Password);
+                    if (password == PasswordVerificationResult.Failed) return null;
+                }
+                else
+                {
+                    if (!user.PasswordHash.Equals(loginUser.PasswordHash)) return null;
+                }
 
+                return user;
+            }
+            catch
+            {
+                throw;
+            }
+        }
         #endregion
     }
 }
