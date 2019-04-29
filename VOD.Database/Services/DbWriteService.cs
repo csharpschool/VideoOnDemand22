@@ -17,7 +17,6 @@ namespace VOD.Database.Services
         {
             _db = db;
         }
-
         #endregion
 
         #region Methods
@@ -32,6 +31,18 @@ namespace VOD.Database.Services
                 return false;
             }
         }
+        public void Add<TEntity>(TEntity item) where TEntity : class
+        {
+            try
+            {
+                _db.Add(item);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         #endregion
     }
 }
