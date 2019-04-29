@@ -1,8 +1,45 @@
 ﻿@page
-@model VOD.Admin.Pages.Users.IndexModel
+@model IndexModel
+@inject SignInManager<VODUser> SignInManager
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Users";
 }
 
-<h1>Index</h1>
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>@ViewData["Title"]</h1>
+            <partial name="_PageButtonsPartial" />
+
+            <table style="margin-top:20px;" class="table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Admin</th>
+                        <th>Id</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => user.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => user.IsAdmin)</td>
+                            <td>@Html.DisplayFor(modelItem => user.Id)</td>
+                            <td style="min-width:150px;">
+                                <partial name="_TableRowButtonsPartial" model="@user.ButtonDTO" />
+                                <btn class="float-right" style="margin-right:5px;" asp-page="Details" icon="edit" asp-route-id="@user.Id"></btn>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+}
+
 
