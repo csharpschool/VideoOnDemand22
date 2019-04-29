@@ -1,8 +1,8 @@
 ﻿@page
-@model CreateModel
+@model EditModel
 @inject SignInManager<VODUser> SignInManager
 @{
-    ViewData["Title"] = "Create a new account";
+    ViewData["Title"] = "Edit User";
 }
 
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -14,6 +14,7 @@
             <p></p>
             <form method="post">
                 <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="Input.Id" />
 
                 <div class="form-group">
                     <label asp-for="Input.Email"></label>
@@ -21,17 +22,12 @@
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.ConfirmPassword"></label>
-                    <input asp-for="Input.ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    <label asp-for="Input.IsAdmin"></label>
+                    <input asp-for="Input.IsAdmin" class="form-control" />
+                    <span asp-validation-for="Input.IsAdmin" class="text-danger"></span>
                 </div>
 
-                <button type="submit" class="btn btn-success">Create</button>
+                <button type="submit" class="btn btn-success">Save</button>
             </form>
 
         </div>
