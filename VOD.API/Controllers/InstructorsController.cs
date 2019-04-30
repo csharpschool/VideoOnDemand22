@@ -57,6 +57,25 @@ namespace VOD.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<InstructorDTO>> Post(InstructorDTO model)
+        {
+            try
+            {
+                if (model == null) return BadRequest("No entity provided");
+                var id = await _db.CreateAsync<InstructorDTO, Instructor>(model);
+                var dto = await _db.SingleAsync<Instructor, InstructorDTO>(s => s.Id.Equals(id));
+                if (dto == null) return BadRequest("Unable to add the entity");
+
+                var uri = _linkGenerator.GetPathByAction("Get", "Instructors", new { id });
+                return Created(uri, dto);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+        }
         #endregion
     }
 }
