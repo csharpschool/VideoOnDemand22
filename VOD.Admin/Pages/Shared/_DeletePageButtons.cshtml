@@ -1,0 +1,11 @@
+﻿@model int
+<div>
+    <btn asp-page="Index" icon="list_alt">Back to List</btn>
+    <btn class="text-light" asp-page="/Index" icon="dashboard">Dashboard</btn>
+    @if(Model > 0)
+    {
+        <btn asp-page="Edit" icon="edit" asp-route-id="@Model">
+            Edit
+        </btn>
+    }
+</div>
