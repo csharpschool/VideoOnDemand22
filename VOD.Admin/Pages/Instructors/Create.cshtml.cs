@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using VOD.Common.DTOModels;
-using VOD.Database.Services;
+using VOD.Common.DTOModels.Admin;
+using VOD.Common.Entities;
+using VOD.Common.Services;
 
-namespace VOD.Admin.Pages.Users
+namespace VOD.Admin.Pages.Instructors
 {
     [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         #region Properties
-        private readonly IUserService _userService;
-        [BindProperty] public RegisterUserDTO Input { get; set; } = new RegisterUserDTO();
+        private readonly IAdminService _db;
+        [BindProperty] public InstructorDTO Input { get; set; } = new InstructorDTO();
         [TempData] public string Alert { get; set; }
         #endregion
 
         #region Constructor
-        public CreateModel(IUserService userService)
+        public CreateModel(IAdminService db)
         {
-            _userService = userService;
+            _db = db;
         }
         #endregion
 
@@ -35,16 +33,11 @@ namespace VOD.Admin.Pages.Users
         {
             if (ModelState.IsValid)
             {
-                var result = await _userService.AddUserAsync(Input);
-                if (result.Succeeded)
+                var succeeded = (await _db.CreateAsync<InstructorDTO, Instructor>(Input)) > 0;
+                if (succeeded)
                 {
-                    Alert = $"Created a new account for {Input.Email}.";
+                    Alert = $"Created a new Instructor: {Input.Name}.";
                     return RedirectToPage("Index");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
