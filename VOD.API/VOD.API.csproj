@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\VOD.Common\VOD.Common.csproj" />
     <ProjectReference Include="..\VOD.Database\VOD.Database.csproj" />
   </ItemGroup>
