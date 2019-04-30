@@ -2,7 +2,7 @@
 @model DeleteModel
 @inject SignInManager<VODUser> SignInManager
 @{
-    ViewData["Title"] = "Delete User";
+    ViewData["Title"] = "Delete Instructor";
 }
 
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -10,22 +10,21 @@
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <h1>@ViewData["Title"]</h1>
-            <partial name="_BackToIndexButtonsPartial" />
+            <partial name="_DeletePageButtons" model="@Model.Input.Id" />
             <hr />
             <dl class="dl-horizontal">
-                <dt>@Html.DisplayNameFor(model => model.Input.Id)</dt>
-                <dd>@Html.DisplayFor(model => model.Input.Id)</dd>
-                <dt>@Html.DisplayNameFor(model => model.Input.Email)</dt>
-                <dd>@Html.DisplayFor(model => model.Input.Email)</dd>
-                <dt>@Html.DisplayNameFor(model => model.Input.IsAdmin)</dt>
-                <dd>@Html.DisplayFor(model => model.Input.IsAdmin)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.Name)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Name)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.Description)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Description)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.Thumbnail)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Thumbnail)</dd>
             </dl>
 
             <form method="post">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <input type="hidden" asp-for="Input.Id" />
-                <input type="hidden" asp-for="Input.Email" />
-                <input type="hidden" asp-for="Input.IsAdmin" />
+                <input type="hidden" asp-for="Input.Name" />
 
                 <button type="submit" class="btn btn-danger">Delete </button>
             </form>
