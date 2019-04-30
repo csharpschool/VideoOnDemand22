@@ -6,14 +6,14 @@ using VOD.Common.DTOModels.Admin;
 using VOD.Common.Entities;
 using VOD.Common.Services;
 
-namespace VOD.Admin.Pages.Instructors
+namespace VOD.Admin.Pages.Courses
 {
     [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         #region Properties
         private readonly IAdminService _db;
-        [BindProperty] public InstructorDTO Input { get; set; } = new InstructorDTO();
+        [BindProperty] public CourseDTO Input { get; set; } = new CourseDTO();
         [TempData] public string Alert { get; set; }
         #endregion
 
@@ -30,7 +30,7 @@ namespace VOD.Admin.Pages.Instructors
             try
             {
                 Alert = string.Empty;
-                Input = await _db.SingleAsync<Instructor, InstructorDTO>(s => s.Id.Equals(id));
+                Input = await _db.SingleAsync<Course, CourseDTO>(s => s.Id.Equals(id), true);
                 return Page();
             }
             catch
@@ -45,15 +45,17 @@ namespace VOD.Admin.Pages.Instructors
 
             if (ModelState.IsValid)
             {
-                var succeeded = await _db.DeleteAsync<Instructor>(d => d.Id.Equals(id));
+                var succeeded = await _db.DeleteAsync<Course>(d => d.Id.Equals(id));
                 if (succeeded)
                 {
-                    Alert = $"Deleted Instructor: {Input.Name}.";
+                    // Message sent back to the Index Razor Page.
+                    Alert = $"Deleted Course: {Input.Title}.";
                     return RedirectToPage("Index");
                 }
             }
 
-            Input = await _db.SingleAsync<Instructor, InstructorDTO>(s => s.Id.Equals(id));
+            // Something failed, redisplay the form.
+            Input = await _db.SingleAsync<Course, CourseDTO>(s => s.Id.Equals(id), true);
             return Page();
         }
         #endregion
