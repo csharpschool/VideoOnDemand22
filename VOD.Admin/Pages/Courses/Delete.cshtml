@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <h1>@ViewData["Title"]</h1>
-            <partial name="_DeletePageButtons" model="@Model.Input.Id" />
+            <partial name="_DeletePageButtons" model="@Model.Input.ButtonDTO" />
             <hr />
             <dl class="dl-horizontal">
                 <dt>@Html.DisplayNameFor(model => model.Input.Title)</dt>
