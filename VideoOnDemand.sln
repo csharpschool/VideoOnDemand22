@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOD.Common", "VOD.Common\VO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOD.Database", "VOD.Database\VOD.Database.csproj", "{7E1EA7E8-5B9B-43A4-98E2-64B7EFE220E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOD.Admin", "VOD.Admin\VOD.Admin.csproj", "{76ED00B4-98E1-4F0D-9129-2ECACCB03CAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOD.Admin", "VOD.Admin\VOD.Admin.csproj", "{76ED00B4-98E1-4F0D-9129-2ECACCB03CAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOD.API", "VOD.API\VOD.API.csproj", "{150E5F8C-DB0A-4D10-895B-9155A4E77CD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{76ED00B4-98E1-4F0D-9129-2ECACCB03CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76ED00B4-98E1-4F0D-9129-2ECACCB03CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76ED00B4-98E1-4F0D-9129-2ECACCB03CAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{150E5F8C-DB0A-4D10-895B-9155A4E77CD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{150E5F8C-DB0A-4D10-895B-9155A4E77CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{150E5F8C-DB0A-4D10-895B-9155A4E77CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{150E5F8C-DB0A-4D10-895B-9155A4E77CD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
