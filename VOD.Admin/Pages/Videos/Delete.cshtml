@@ -1,0 +1,50 @@
+﻿@page
+@model DeleteModel
+@inject SignInManager<VODUser> SignInManager
+@{
+    ViewData["Title"] = "Delete Video";
+    var description = Model.Input.Description.Truncate(100);
+}
+
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>@ViewData["Title"]</h1>
+            <partial name="_DeletePageButtons" model="@Model.Input.ButtonDTO" />
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>@Html.DisplayNameFor(model => model.Input.Title)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Title)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.Description)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Description)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.Duration)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Duration)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.Thumbnail)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Thumbnail)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.Url)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Url)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.Course)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Course)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.Module)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Module)</dd>
+            </dl>
+
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="Input.Id" />
+                <input type="hidden" asp-for="Input.Title" />
+                <input type="hidden" asp-for="Input.CourseId" />
+                <input type="hidden" asp-for="Input.ModuleId" />
+
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

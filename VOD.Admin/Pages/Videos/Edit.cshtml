@@ -1,0 +1,64 @@
+﻿@page
+@model EditModel
+@inject SignInManager<VODUser> SignInManager
+@{
+    ViewData["Title"] = "Edit Video";
+}
+
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>@ViewData["Title"]</h1>
+            <partial name="_BackToIndexButtonsPartial" />
+            <p></p>
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="Input.Id" />
+
+                <div class="form-group">
+                    <label asp-for="Input.Title"></label>
+                    <input asp-for="Input.Title" class="form-control" />
+                    <span asp-validation-for="Input.Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Description"></label>
+                    <input asp-for="Input.Description" class="form-control" />
+                    <span asp-validation-for="Input.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Duration"></label>
+                    <input asp-for="Input.Duration" class="form-control" />
+                    <span asp-validation-for="Input.Duration" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Thumbnail"></label>
+                    <input asp-for="Input.Thumbnail" class="form-control" />
+                    <span asp-validation-for="Input.Thumbnail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Url"></label>
+                    <input asp-for="Input.Url" class="form-control" />
+                    <span asp-validation-for="Input.Url" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Course" class="control-label"></label>
+                    <input asp-for="Input.Course" readonly class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.Module" class="control-label"></label>
+                    <select asp-for="Input.ModuleId" class="form-control" asp-items="ViewBag.Modules"></select>
+                </div>
+
+                <button type="submit" class="btn btn-success">Save</button>
+            </form>
+
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

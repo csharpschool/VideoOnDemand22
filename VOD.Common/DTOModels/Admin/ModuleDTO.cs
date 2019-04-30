@@ -14,6 +14,7 @@ namespace VOD.Common.DTOModels.Admin
         public ICollection<VideoDTO> Videos { get; set; }
         public ICollection<DownloadDTO> Downloads { get; set; }
 
+        public string CourseAndModule { get { return $"{Title} ({Course})"; } }
         public ButtonDTO ButtonDTO { get { return new ButtonDTO(CourseId, Id); } }
     }
 }
