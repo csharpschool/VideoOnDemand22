@@ -2,7 +2,7 @@
 @model IndexModel
 @inject SignInManager<VODUser> SignInManager
 @{
-    ViewData["Title"] = "Instructors";
+    ViewData["Title"] = "Courses";
 }
 
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -21,7 +21,8 @@
             <table style="margin-top:20px;" class="table">
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Instructor</th>
                         <th>Description</th>
                         <th></th>
                     </tr>
@@ -29,10 +30,12 @@
                 <tbody>
                     @foreach (var item in Model.Items)
                     {
+                        var description = item.Description.Truncate(100);
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                            <td style="min-width:150px;">
+                            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Instructor)</td>
+                            <td>@Html.DisplayFor(modelItem => description)</td>
+                            <td style="min-width:100px;">
                                 <partial name="_TableRowButtonsPartial" model="@item.ButtonDTO" />
                             </td>
                         </tr>
