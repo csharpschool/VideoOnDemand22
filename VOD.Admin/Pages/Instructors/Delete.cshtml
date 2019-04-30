@@ -1,0 +1,40 @@
+﻿@page
+@model DeleteModel
+@inject SignInManager<VODUser> SignInManager
+@{
+    ViewData["Title"] = "Delete User";
+}
+
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>@ViewData["Title"]</h1>
+            <partial name="_BackToIndexButtonsPartial" />
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>@Html.DisplayNameFor(model => model.Input.Id)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Id)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.Email)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.Email)</dd>
+                <dt>@Html.DisplayNameFor(model => model.Input.IsAdmin)</dt>
+                <dd>@Html.DisplayFor(model => model.Input.IsAdmin)</dd>
+            </dl>
+
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" asp-for="Input.Id" />
+                <input type="hidden" asp-for="Input.Email" />
+                <input type="hidden" asp-for="Input.IsAdmin" />
+
+                <button type="submit" class="btn btn-danger">Delete </button>
+            </form>
+
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

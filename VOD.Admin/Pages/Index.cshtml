@@ -9,6 +9,12 @@
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
 {
     <div class="row">
+        <div class="col-md-8 offset-md-2" style="padding-left:0; padding-right:0;">
+            <alert alert-type="success">@Model.Alert</alert>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="offset-sm-2 col-sm-8 offset-md-4 col-md-6">
             <partial name="_CardPartial" for="Cards.Instructors" />
             <partial name="_CardPartial" for="Cards.Users" />

@@ -16,6 +16,7 @@ namespace VOD.Admin.Pages
                 CardViewModel Videos, CardViewModel Downloads) Cards;
 
         private readonly IDbReadService _db;
+        [TempData] public string Alert { get; set; }
 
         public IndexModel(IDbReadService db)
         {
