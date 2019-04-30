@@ -4,30 +4,41 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using VOD.Common.DTOModels;
+using VOD.Common.DTOModels.Admin;
+using VOD.Common.Entities;
+using VOD.Common.Services;
 using VOD.Database.Services;
 
-namespace VOD.Admin.Pages.Users
+namespace VOD.Admin.Pages.Instructors
 {
     [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         #region Properties
-        private readonly IUserService _userService;
-        public IEnumerable<UserDTO> Users = new List<UserDTO>();
+        private readonly IAdminService _db;
+        public IEnumerable<InstructorDTO> Items = new List<InstructorDTO>();
         [TempData] public string Alert { get; set; }
 
         #endregion
 
         #region Constructor
-        public IndexModel(IUserService userService)
+        public IndexModel(IAdminService db)
         {
-            _userService = userService;
+            _db = db;
         }
         #endregion
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            Users = await _userService.GetUsersAsync();
+            try
+            {
+                Items = await _db.GetAsync<Instructor, InstructorDTO>(true);
+                return Page();
+            }
+            catch
+            {
+                return RedirectToPage("/Index", new { alert = "You do not have access to this page." });
+            }
         }
 
     }
