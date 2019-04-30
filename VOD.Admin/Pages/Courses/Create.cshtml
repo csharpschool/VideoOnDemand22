@@ -2,7 +2,7 @@
 @model CreateModel
 @inject SignInManager<VODUser> SignInManager
 @{
-    ViewData["Title"] = "Add Instructor";
+    ViewData["Title"] = "Add Course";
 }
 
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -16,24 +16,28 @@
                 <div asp-validation-summary="All" class="text-danger"></div>
 
                 <div class="form-group">
-                    <label asp-for="Input.Name"></label>
-                    <input asp-for="Input.Name" class="form-control" />
-                    <span asp-validation-for="Input.Name"
-                          class="text-danger"></span>
+                    <label asp-for="Input.Title"></label>
+                    <input asp-for="Input.Title" class="form-control" />
+                    <span asp-validation-for="Input.Title" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Input.Description"></label>
-                    <input asp-for="Input.Description"
-                           class="form-control" />
-                    <span asp-validation-for="Input.Description"
-                          class="text-danger"></span>
+                    <input asp-for="Input.Description" class="form-control" />
+                    <span asp-validation-for="Input.Description" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Input.Thumbnail"></label>
-                    <input asp-for="Input.Thumbnail"
-                           class="form-control" />
-                    <span asp-validation-for="Input.Thumbnail"
-                          class="text-danger"></span>
+                    <label asp-for="Input.ImageUrl"></label>
+                    <input asp-for="Input.ImageUrl" class="form-control" />
+                    <span asp-validation-for="Input.ImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.MarqueeImageUrl"></label>
+                    <input asp-for="Input.MarqueeImageUrl" class="form-control" />
+                    <span asp-validation-for="Input.MarqueeImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Instructor" class="control-label"></label>
+                    <select asp-for="Input.InstructorId" class="form-control" asp-items="ViewBag.Instructors"></select>
                 </div>
 
                 <button type="submit" class="btn btn-success">Create</button>
