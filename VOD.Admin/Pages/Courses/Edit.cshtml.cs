@@ -4,16 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using VOD.Common.DTOModels.Admin;
 using VOD.Common.Entities;
+using VOD.Common.Extensions;
 using VOD.Common.Services;
 
-namespace VOD.Admin.Pages.Instructors
+namespace VOD.Admin.Pages.Courses
 {
     [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         #region Properties
         private readonly IAdminService _db;
-        [BindProperty] public InstructorDTO Input { get; set; } = new InstructorDTO();
+        [BindProperty] public CourseDTO Input { get; set; } = new CourseDTO();
         [TempData] public string Alert { get; set; }
         #endregion
 
@@ -30,7 +31,8 @@ namespace VOD.Admin.Pages.Instructors
             try
             {
                 Alert = string.Empty;
-                Input = await _db.SingleAsync<Instructor, InstructorDTO>(s => s.Id.Equals(id));
+                ViewData["Instructors"] = (await _db.GetAsync<Instructor, InstructorDTO>()).ToSelectList("Id", "Name");
+                Input = await _db.SingleAsync<Course, CourseDTO>(s => s.Id.Equals(id));
                 return Page();
             }
             catch
@@ -43,15 +45,17 @@ namespace VOD.Admin.Pages.Instructors
         {
             if (ModelState.IsValid)
             {
-                var succeeded = await _db.UpdateAsync<InstructorDTO, Instructor>(Input);
+                var succeeded = await _db.UpdateAsync<CourseDTO, Course>(Input);
                 if (succeeded)
                 {
                     // Message sent back to the Index Razor Page.
-                    Alert = $"Updated Instructor: {Input.Name}.";
+                    Alert = $"Updated Course: {Input.Title}.";
                     return RedirectToPage("Index");
                 }
             }
 
+            // Reload the modules when the page is reloaded
+            ViewData["Instructors"] = (await _db.GetAsync<Instructor, InstructorDTO>()).ToSelectList("Id", "Name");
             // Something failed, redisplay the form.
             return Page();
         }
