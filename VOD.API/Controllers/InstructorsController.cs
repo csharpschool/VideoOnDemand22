@@ -43,6 +43,20 @@ namespace VOD.API.Controllers
             }
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<InstructorDTO>> Get(int id, bool include = false)
+        {
+            try
+            {
+                var dto = await _db.SingleAsync<Instructor, InstructorDTO>(s => s.Id.Equals(id), include);
+                if (dto == null) return NotFound();
+                return dto;
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+        }
         #endregion
     }
 }
