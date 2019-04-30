@@ -1,50 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using VOD.Common.DTOModels;
-using VOD.Database.Services;
+using VOD.Common.DTOModels.Admin;
+using VOD.Common.Entities;
+using VOD.Common.Services;
 
-namespace VOD.Admin.Pages.Users
+namespace VOD.Admin.Pages.Instructors
 {
     [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         #region Properties
-        private readonly IUserService _userService;
-        [BindProperty] public UserDTO Input { get; set; } = new UserDTO();
+        private readonly IAdminService _db;
+        [BindProperty] public InstructorDTO Input { get; set; } = new InstructorDTO();
         [TempData] public string Alert { get; set; }
         #endregion
 
         #region Constructor
-        public EditModel(IUserService userService)
+        public EditModel(IAdminService db)
         {
-            _userService = userService;
+            _db = db;
         }
         #endregion
 
         #region Actions
-        public async Task OnGetAsync(string id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            Alert = string.Empty;
-            Input = await _userService.GetUserAsync(id);
+            try
+            {
+                Alert = string.Empty;
+                Input = await _db.SingleAsync<Instructor, InstructorDTO>(s => s.Id.Equals(id));
+                return Page();
+            }
+            catch
+            {
+                return RedirectToPage("/Index", new { alert = "You do not have access to this page." }); ;
+            }
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
             {
-                var result = await _userService.UpdateUserAsync(Input);
-                if (result)
+                var succeeded = await _db.UpdateAsync<InstructorDTO, Instructor>(Input);
+                if (succeeded)
                 {
-                    Alert = $"User {Input.Email} was updated.";
+                    // Message sent back to the Index Razor Page.
+                    Alert = $"Updated Instructor: {Input.Name}.";
                     return RedirectToPage("Index");
                 }
             }
 
+            // Something failed, redisplay the form.
             return Page();
         }
         #endregion
