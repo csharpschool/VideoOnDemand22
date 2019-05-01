@@ -34,6 +34,23 @@ namespace VOD.Common.Services
             if (courseId != null) _properties.Add("courseId", 0);
 
         }
+        private string FormatUriWithoutIds<TSource>()
+        {
+            string uri = "api";
+            object moduleId, courseId;
+
+            // Try to fetch the value for the courseId key in the collection
+            // and append its path to the uri variable if it exists.
+            bool succeeeded = _properties.TryGetValue("courseId", out courseId);
+            if (succeeeded) uri = $"{uri}/courses/0";
+
+            succeeeded = _properties.TryGetValue("moduleId", out moduleId);
+            if (succeeeded) uri = $"{uri}/modules/0";
+
+            uri = $"{uri}/{typeof(TSource).Name}s";
+
+            return uri;
+        }
         #endregion
 
         #region Methods
@@ -42,6 +59,7 @@ namespace VOD.Common.Services
             try
             {
                 GetProperties<TSource>();
+                string uri = FormatUriWithoutIds<TSource>();
                 throw new NotImplementedException();
             }
             catch
