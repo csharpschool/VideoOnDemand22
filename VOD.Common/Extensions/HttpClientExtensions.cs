@@ -160,5 +160,26 @@ namespace VOD.Common.Extensions
             }
         }
         #endregion
+
+        #region Delete Methods
+        public static async Task<string> DeleteAsync(this HttpClient client, string uri, CancellationToken cancellationToken, string token = "")
+        {
+            try
+            {
+                using (var requestMessage = uri.CreateRequestHeaders(HttpMethod.Put, token))
+                {
+                    using (var responseMessage = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+                    {
+                        await responseMessage.CheckStatusCodes();
+                        return await responseMessage.Content.ReadAsStringAsync();
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        #endregion
     }
 }
