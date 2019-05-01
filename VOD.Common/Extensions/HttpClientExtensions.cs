@@ -88,6 +88,27 @@ namespace VOD.Common.Extensions
                 throw;
             }
         }
+        public static async Task<List<TResponse>> GetAsync<TResponse, TRequest>(this HttpClient client, string uri, CancellationToken cancellationToken, TRequest content, string token = "")
+        {
+            try
+            {
+                var requestMessage = uri.CreateRequestHeaders(HttpMethod.Get, token);
+
+                if (content != null) await requestMessage.CreateRequestContent(content);
+
+                using (var response = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+                {
+                    var stream = await response.Content.ReadAsStreamAsync();
+                    await response.CheckStatusCodes();
+                    return stream.ReadAndDeserializeFromJson<List<TResponse>>();
+                }
+            }
+            catch
+            {
+
+                throw;
+            }
+        }
         #endregion
-}
+    }
 }
