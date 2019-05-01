@@ -74,6 +74,25 @@ namespace VOD.Common.Services
 
             return uri;
         }
+        private string FormatUriWithIds<TSource>()
+        {
+            string uri = "api";
+            object id, moduleId, courseId;
+
+            bool succeeeded = _properties.TryGetValue("courseId", out courseId);
+            if (succeeeded) uri = $"{uri}/courses/{courseId}";
+
+            succeeeded = _properties.TryGetValue("moduleId", out moduleId);
+            if (succeeeded) uri = $"{uri}/modules/{moduleId}";
+
+            succeeeded = _properties.TryGetValue("id", out id);
+            if (id != null)
+                uri = $"{uri}/{typeof(TSource).Name}s/{id}";
+            else
+                uri = $"{uri}/{typeof(TSource).Name}s";
+
+            return uri;
+        }
         private void GetExpressionProperties(Expression expression)
         {
             var body = (MethodCallExpression)expression;
@@ -138,6 +157,7 @@ namespace VOD.Common.Services
             try
             {
                 GetProperties(expression);
+                string uri = FormatUriWithIds<TSource>();
                 throw new NotImplementedException();
             }
             catch
