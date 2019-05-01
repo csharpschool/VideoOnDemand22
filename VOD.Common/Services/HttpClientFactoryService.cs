@@ -95,7 +95,22 @@ namespace VOD.Common.Services
                 throw;
             }
         }
+        public async Task<string> DeleteAsync(string uri, string serviceName, string token = "")
+        {
+            try
+            {
+                if (new string[] { uri, serviceName }.IsNullOrEmptyOrWhiteSpace())
+                    throw new HttpResponseException(HttpStatusCode.NotFound, "Could not find the resource");
 
+                var httpClient = _httpClientFactory.CreateClient(serviceName);
+
+                return await httpClient.DeleteAsync(uri.ToLower(), _cancellationToken, token);
+            }
+            catch
+            {
+                throw;
+            }
+        }
         #endregion
     }
 }
