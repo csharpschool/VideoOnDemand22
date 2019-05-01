@@ -61,8 +61,10 @@ namespace VOD.Admin
                     AutomaticDecompression = System.Net.DecompressionMethods.GZip
                 });
 
-            services.AddAutoMapper();                 // Version 6.0.0: AutoMapper.Extensions.Microsoft.DependencyInjection
-            //services.AddAutoMapper(typeof(Startup));    // Version 6.1.0: AutoMapper.Extensions.Microsoft.DependencyInjection
+            //services.AddAutoMapper(); // Version 6.0.0: AutoMapper.Extensions.Microsoft.DependencyInjection
+
+            // Version 6.1.0: AutoMapper.Extensions.Microsoft.DependencyInjection
+            services.AddAutoMapper(typeof(Startup), typeof(Instructor), typeof(Course), typeof(Module), typeof(Video), typeof(Download));    
             services.AddScoped<IDbReadService, DbReadService>();
             services.AddScoped<IDbWriteService, DbWriteService>();
             services.AddScoped<IUserService, UserService>();
