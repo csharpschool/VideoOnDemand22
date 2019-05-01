@@ -34,6 +34,29 @@ namespace VOD.Common.Services
             if (courseId != null) _properties.Add("courseId", 0);
 
         }
+        private void GetProperties<TSource>(Expression<Func<TSource, bool>> expression)
+        {
+            try
+            {
+                var lambda = expression as LambdaExpression;
+                _properties.Clear();
+
+                ResolveExpression(lambda.Body);
+
+                var typeName = typeof(TSource).Name;
+
+                if (!typeName.Equals("Instructor") && 
+                    !typeName.Equals("Course") && 
+                    !_properties.ContainsKey("courseId"))
+                        _properties.Add("courseId", 0);
+
+            }
+            catch 
+            {
+
+                throw;
+            }
+        }
         private string FormatUriWithoutIds<TSource>()
         {
             string uri = "api";
