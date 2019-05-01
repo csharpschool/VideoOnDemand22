@@ -57,6 +57,42 @@ namespace VOD.Common.Services
                 throw;
             }
         }
+        private void GetProperties<TSource>(TSource source)
+        {
+            try
+            {
+                _properties.Clear();
+
+                var idProperty = source.GetType().GetProperty("Id");
+                var moduleProperty = source.GetType().GetProperty("ModuleId");
+                var courseProperty = source.GetType().GetProperty("CourseId");
+
+                if (idProperty != null)
+                {
+                    var id = idProperty.GetValue(source);
+                    if (id != null && (int)id > 0) _properties.Add("id", id);
+                }
+
+                if (moduleProperty != null)
+                {
+                    var moduleId = moduleProperty.GetValue(source);
+                    if (moduleId != null && (int)moduleId > 0)
+                        _properties.Add("moduleId", moduleId);
+                }
+
+                if (courseProperty != null)
+                {
+                    var courseId = courseProperty.GetValue(source);
+                    if (courseId != null && (int)courseId > 0)
+                        _properties.Add("courseId", courseId);
+                }
+            }
+            catch
+            {
+                _properties.Clear();
+                throw;
+            }
+        }
         private string FormatUriWithoutIds<TSource>()
         {
             string uri = "api";
