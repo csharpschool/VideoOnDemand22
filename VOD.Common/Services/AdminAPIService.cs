@@ -209,11 +209,21 @@ namespace VOD.Common.Services
             throw new NotImplementedException();
         }
 
-        public Task<int> CreateAsync<TSource, TDestination>(TSource item)
+        public async Task<int> CreateAsync<TSource, TDestination>(TSource item)
             where TSource : class
             where TDestination : class
         {
-            throw new NotImplementedException();
+            try
+            {
+                GetProperties(item);
+                string uri = FormatUriWithIds<TDestination>();
+                var response = await _http.PostAsync<TSource, TSource>(item, uri, "AdminClient");
+                return (int)response.GetType().GetProperty("Id").GetValue(response);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public Task<bool> DeleteAsync<TSource>(Expression<Func<TSource, bool>> expression) where TSource : class
