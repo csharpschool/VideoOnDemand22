@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace VOD.Common.Extensions
 {
@@ -16,6 +18,12 @@ namespace VOD.Common.Extensions
             if (httpMethod.Equals(HttpMethod.Get)) requestHeader.Headers.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
             return requestHeader;
         }
-
+        private static async Task<StreamContent> SerializeRequestContentAsync<TRequest>(this TRequest content)
+        {
+            var stream = new MemoryStream();
+            await stream.SerializeToJsonAndWriteAsync(content, new UTF8Encoding(), 1024, true);
+            stream.Seek(0, SeekOrigin.Begin);
+            return new StreamContent(stream);
+        }
     }
 }
