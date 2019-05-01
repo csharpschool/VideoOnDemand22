@@ -31,5 +31,12 @@ namespace VOD.Common.Extensions
             requestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             return requestMessage;
         }
+        private static async Task<TResponse> DeserializeResponse<TResponse>(this HttpResponseMessage response)
+        {
+            response.EnsureSuccessStatusCode();
+            var responseStream = await response.Content.ReadAsStreamAsync();
+            return responseStream.ReadAndDeserializeFromJson<TResponse>();
+        }
+
     }
 }
