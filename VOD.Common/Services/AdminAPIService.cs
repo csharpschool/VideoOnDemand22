@@ -133,11 +133,18 @@ namespace VOD.Common.Services
             throw new NotImplementedException();
         }
 
-        public Task<TDestination> SingleAsync<TSource, TDestination>(Expression<Func<TSource, bool>> expression, bool include = false)
-            where TSource : class
-            where TDestination : class
+        public Task<TDestination> SingleAsync<TSource, TDestination>(Expression<Func<TSource, bool>> expression, bool include = false) where TSource : class where TDestination : class
         {
-            throw new NotImplementedException();
+            try
+            {
+                GetProperties(expression);
+                throw new NotImplementedException();
+            }
+            catch
+            {
+
+                throw;
+            }
         }
 
         public Task<bool> AnyAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class
