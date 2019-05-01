@@ -54,17 +54,16 @@ namespace VOD.Common.Services
         #endregion
 
         #region Methods
-        public Task<List<TDestination>> GetAsync<TSource, TDestination>(bool include = false) where TSource : class where TDestination : class
+        public async Task<List<TDestination>> GetAsync<TSource, TDestination>(bool include = false) where TSource : class where TDestination : class
         {
             try
             {
                 GetProperties<TSource>();
                 string uri = FormatUriWithoutIds<TSource>();
-                throw new NotImplementedException();
+                return await _http.GetListAsync<TDestination>($"{uri}?include={include.ToString()}", "AdminClient");
             }
             catch
             {
-
                 throw;
             }
         }
