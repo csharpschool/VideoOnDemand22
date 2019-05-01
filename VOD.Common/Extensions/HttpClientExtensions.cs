@@ -135,5 +135,30 @@ namespace VOD.Common.Extensions
             }
         }
         #endregion
+
+        #region Put Methods
+        public static async Task<TResponse> PutAsync<TRequest, TResponse>(this HttpClient client, string uri, TRequest content, CancellationToken cancellationToken, string token = "")
+        {
+            try
+            {
+                using (var requestMessage = uri.CreateRequestHeaders(HttpMethod.Put, token))
+                {
+                    using ((await requestMessage.CreateRequestContent(content)).Content)
+                    {
+                        using (var responseMessage = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+                        {
+                            await responseMessage.CheckStatusCodes();
+                            return await responseMessage.DeserializeResponse<TResponse>();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+                throw;
+            }
+        }
+        #endregion
     }
 }
