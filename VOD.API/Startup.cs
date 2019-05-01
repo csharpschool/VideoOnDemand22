@@ -41,8 +41,8 @@ namespace VOD.API
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //services.AddAutoMapper();                 // Version 6.0.0: AutoMapper.Extensions.Microsoft.DependencyInjection
-            services.AddAutoMapper(typeof(Startup));    // Version 6.1.0: AutoMapper.Extensions.Microsoft.DependencyInjection
+            services.AddAutoMapper();                 // Version 6.0.0: AutoMapper.Extensions.Microsoft.DependencyInjection
+            //services.AddAutoMapper(typeof(Startup));    // Version 6.1.0: AutoMapper.Extensions.Microsoft.DependencyInjection
 
             services.AddScoped<IDbReadService, DbReadService>();
             services.AddScoped<IDbWriteService, DbWriteService>();

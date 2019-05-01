@@ -32,7 +32,7 @@ namespace VOD.Admin.Pages.Videos
             {
                 Alert = string.Empty;
                 ViewData["Modules"] = (await _db.GetAsync<Module, ModuleDTO>(true)).ToSelectList("Id", "CourseAndModule");
-                Input = await _db.SingleAsync<Video, VideoDTO>(s => s.Id.Equals(id) && s.ModuleId.Equals(moduleId) && s.CourseId.Equals(courseId));
+                Input = await _db.SingleAsync<Video, VideoDTO>(s => s.Id.Equals(id) && s.ModuleId.Equals(moduleId) && s.CourseId.Equals(courseId), true);
                 return Page();
             }
             catch

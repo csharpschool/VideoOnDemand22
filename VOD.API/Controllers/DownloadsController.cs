@@ -117,7 +117,7 @@ namespace VOD.API.Controllers
                 exists = await _db.AnyAsync<Module>(a => a.Id.Equals(model.ModuleId) && a.CourseId.Equals(model.CourseId));
                 if (!exists) return NotFound("Could not find related entity");
 
-                exists = await _db.AnyAsync<Download>(a => a.Id.Equals(id) && a.ModuleId.Equals(moduleId) && a.CourseId.Equals(courseId));
+                exists = await _db.AnyAsync<Download>(a => a.Id.Equals(id));
                 if (!exists) return NotFound("Could not find entity");
 
                 if (await _db.UpdateAsync<DownloadDTO, Download>(model)) return NoContent();
