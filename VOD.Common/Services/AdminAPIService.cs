@@ -45,13 +45,13 @@ namespace VOD.Common.Services
 
                 var typeName = typeof(TSource).Name;
 
-                if (!typeName.Equals("Instructor") && 
-                    !typeName.Equals("Course") && 
+                if (!typeName.Equals("Instructor") &&
+                    !typeName.Equals("Course") &&
                     !_properties.ContainsKey("courseId"))
-                        _properties.Add("courseId", 0);
+                    _properties.Add("courseId", 0);
 
             }
-            catch 
+            catch
             {
 
                 throw;
@@ -209,9 +209,7 @@ namespace VOD.Common.Services
             throw new NotImplementedException();
         }
 
-        public async Task<int> CreateAsync<TSource, TDestination>(TSource item)
-            where TSource : class
-            where TDestination : class
+        public async Task<int> CreateAsync<TSource, TDestination>(TSource item) where TSource : class where TDestination : class
         {
             try
             {
@@ -226,14 +224,22 @@ namespace VOD.Common.Services
             }
         }
 
-        public Task<bool> DeleteAsync<TSource>(Expression<Func<TSource, bool>> expression) where TSource : class
+        public async Task<bool> UpdateAsync<TSource, TDestination>(TSource item) where TSource : class where TDestination : class
         {
-            throw new NotImplementedException();
+            try
+            {
+                GetProperties(item);
+                string uri = FormatUriWithIds<TDestination>();
+                var response = await _http.PutAsync<TSource, TSource>(item, uri, "AdminClient");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public Task<bool> UpdateAsync<TSource, TDestination>(TSource item)
-            where TSource : class
-            where TDestination : class
+        public Task<bool> DeleteAsync<TSource>(Expression<Func<TSource, bool>> expression) where TSource : class
         {
             throw new NotImplementedException();
         }
