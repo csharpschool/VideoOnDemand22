@@ -17,6 +17,7 @@ using VOD.Common.Entities;
 using VOD.Database.Services;
 using VOD.Common.Services;
 using AutoMapper;
+using System.Net.Http;
 
 namespace VOD.Admin
 {
@@ -49,11 +50,23 @@ namespace VOD.Admin
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddHttpClient("AdminClient", client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:6600");
+                client.Timeout = new TimeSpan(0, 0, 30);
+                client.DefaultRequestHeaders.Clear();
+            }).ConfigurePrimaryHttpMessageHandler(handler =>
+                new HttpClientHandler()
+                {
+                    AutomaticDecompression = System.Net.DecompressionMethods.GZip
+                });
+
             services.AddAutoMapper();
             services.AddScoped<IDbReadService, DbReadService>();
             services.AddScoped<IDbWriteService, DbWriteService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAdminService, AdminEFService>();
+            services.AddScoped<IAdminService, AdminAPIService>();
+            services.AddScoped<IHttpClientFactoryService, HttpClientFactoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
