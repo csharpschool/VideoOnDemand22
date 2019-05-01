@@ -152,13 +152,14 @@ namespace VOD.Common.Services
             throw new NotImplementedException();
         }
 
-        public Task<TDestination> SingleAsync<TSource, TDestination>(Expression<Func<TSource, bool>> expression, bool include = false) where TSource : class where TDestination : class
+        public async Task<TDestination> SingleAsync<TSource, TDestination>(Expression<Func<TSource, bool>> expression, bool include = false) where TSource : class where TDestination : class
         {
             try
             {
                 GetProperties(expression);
                 string uri = FormatUriWithIds<TSource>();
-                throw new NotImplementedException();
+                return await _http.GetAsync<TDestination>($"{uri}?include={include.ToString()}", "AdminClient");
+
             }
             catch
             {
