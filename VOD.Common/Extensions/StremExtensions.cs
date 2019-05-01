@@ -41,7 +41,22 @@ namespace VOD.Common.Extensions
                     return jsonSerializer.Deserialize<T>(jsonTextReader);
                 }
             }
+        }
+        public static object ReadAndDeserializeFromJson(this Stream stream)
+        {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            if (!stream.CanRead) throw new NotSupportedException(
+                "Can't read from this stream.");
 
+            using (var streamReader = new StreamReader(stream,
+            new UTF8Encoding(), true, 1024, false))
+            {
+                using (var jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    var jsonSerializer = new JsonSerializer();
+                    return jsonSerializer.Deserialize(jsonTextReader);
+                }
+            }
         }
     }
 }
