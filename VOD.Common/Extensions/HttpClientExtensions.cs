@@ -25,5 +25,11 @@ namespace VOD.Common.Extensions
             stream.Seek(0, SeekOrigin.Begin);
             return new StreamContent(stream);
         }
+        private static async Task<HttpRequestMessage> CreateRequestContent<TRequest>(this HttpRequestMessage requestMessage, TRequest content)
+        {
+            requestMessage.Content = await content.SerializeRequestContentAsync();
+            requestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return requestMessage;
+        }
     }
 }
