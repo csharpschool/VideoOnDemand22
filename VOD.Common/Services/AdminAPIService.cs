@@ -63,6 +63,29 @@ namespace VOD.Common.Services
                 _properties.Add(memberExpression.Member.Name, value);
             }
         }
+        private void ResolveExpression(Expression expression)
+        {
+            try
+            {
+                if (expression.NodeType == ExpressionType.AndAlso)
+                {
+                    var binaryExpression = expression as BinaryExpression;
+
+                    // Recursive calls to get at the MethodCallExpressions
+                    ResolveExpression(binaryExpression.Left);
+                    ResolveExpression(binaryExpression.Right);
+                }
+                else if (expression is MethodCallExpression)
+                {
+                    GetExpressionProperties(expression);
+                }
+            }
+            catch
+            {
+
+                throw;
+            }
+        }
         #endregion
 
         #region Methods
