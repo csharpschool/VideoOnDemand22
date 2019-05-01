@@ -239,9 +239,19 @@ namespace VOD.Common.Services
             }
         }
 
-        public Task<bool> DeleteAsync<TSource>(Expression<Func<TSource, bool>> expression) where TSource : class
+        public async Task<bool> DeleteAsync<TSource>(Expression<Func<TSource, bool>> expression) where TSource : class
         {
-            throw new NotImplementedException();
+            try
+            {
+                GetProperties(expression);
+                string uri = FormatUriWithIds<TSource>();
+                var response = await _http.DeleteAsync(uri, "AdminClient");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         #endregion
     }

@@ -166,7 +166,7 @@ namespace VOD.Common.Extensions
         {
             try
             {
-                using (var requestMessage = uri.CreateRequestHeaders(HttpMethod.Put, token))
+                using (var requestMessage = uri.CreateRequestHeaders(HttpMethod.Delete, token))
                 {
                     using (var responseMessage = await client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
                     {
