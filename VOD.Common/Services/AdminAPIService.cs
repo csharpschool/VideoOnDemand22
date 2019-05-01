@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace VOD.Common.Services
@@ -50,6 +50,18 @@ namespace VOD.Common.Services
             uri = $"{uri}/{typeof(TSource).Name}s";
 
             return uri;
+        }
+        private void GetExpressionProperties(Expression expression)
+        {
+            var body = (MethodCallExpression)expression;
+            var argument = body.Arguments[0];
+            if (argument is MemberExpression)
+            {
+                var memberExpression = (MemberExpression)argument;
+                var value = ((FieldInfo)memberExpression.Member).GetValue(((ConstantExpression)memberExpression.Expression).Value);
+
+                _properties.Add(memberExpression.Member.Name, value);
+            }
         }
         #endregion
 
