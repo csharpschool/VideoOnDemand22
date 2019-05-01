@@ -46,6 +46,22 @@ namespace VOD.Common.Services
                 throw;
             }
         }
+        public async Task<TResponse> GetAsync<TResponse>(string uri, string serviceName, string token = "") where TResponse : class
+        {
+            try
+            {
+                if (new string[] { uri, serviceName }.IsNullOrEmptyOrWhiteSpace())
+                    throw new HttpResponseException(HttpStatusCode.NotFound, "Could not find the resource");
+
+                var httpClient = _httpClientFactory.CreateClient(serviceName);
+
+                return await httpClient.GetAsync<TResponse, string>(uri.ToLower(), _cancellationToken, null, token);
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         #endregion
     }

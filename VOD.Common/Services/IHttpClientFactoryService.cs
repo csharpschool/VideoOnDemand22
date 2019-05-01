@@ -8,5 +8,6 @@ namespace VOD.Common.Services
     public interface IHttpClientFactoryService
     {
         Task<List<TResponse>> GetListAsync<TResponse>(string uri, string serviceName, string token = "") where TResponse : class;
+        Task<TResponse> GetAsync<TResponse>(string uri, string serviceName, string token = "") where TResponse : class;
     }
 }

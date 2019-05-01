@@ -88,7 +88,7 @@ namespace VOD.Common.Extensions
                 throw;
             }
         }
-        public static async Task<List<TResponse>> GetAsync<TResponse, TRequest>(this HttpClient client, string uri, CancellationToken cancellationToken, TRequest content, string token = "")
+        public static async Task<TResponse> GetAsync<TResponse, TRequest>(this HttpClient client, string uri, CancellationToken cancellationToken, TRequest content, string token = "")
         {
             try
             {
@@ -100,7 +100,7 @@ namespace VOD.Common.Extensions
                 {
                     var stream = await response.Content.ReadAsStreamAsync();
                     await response.CheckStatusCodes();
-                    return stream.ReadAndDeserializeFromJson<List<TResponse>>();
+                    return stream.ReadAndDeserializeFromJson<TResponse>();
                 }
             }
             catch
