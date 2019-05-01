@@ -18,6 +18,7 @@ namespace VOD.Common.Services
         public HttpClientFactoryService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
+            _cancellationTokenSource = new CancellationTokenSource();
             _cancellationToken = _cancellationTokenSource.Token;
         }
         #endregion
