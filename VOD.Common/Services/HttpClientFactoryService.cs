@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using VOD.Common.DTOModels;
 using VOD.Common.Exceptions;
 using VOD.Common.Extensions;
 
@@ -105,6 +106,23 @@ namespace VOD.Common.Services
                 var httpClient = _httpClientFactory.CreateClient(serviceName);
 
                 return await httpClient.DeleteAsync(uri.ToLower(), _cancellationToken, token);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<TokenDTO> CreateTokenAsync(LoginUserDTO user, string uri, string serviceName, string token = "")
+        {
+            try
+            {
+                if (new string[] { uri, serviceName }.IsNullOrEmptyOrWhiteSpace())
+                    throw new HttpResponseException(HttpStatusCode.NotFound, "Could not find the resource");
+
+                var httpClient = _httpClientFactory.CreateClient(serviceName);
+
+                return await httpClient.PostAsync<LoginUserDTO, TokenDTO>(uri.ToLower(), user, _cancellationToken, token);
             }
             catch
             {
