@@ -83,12 +83,30 @@ namespace VOD.API.Services
         #endregion
 
         #region Token Methods
-        public Task<TokenDTO> GenerateTokenAsync(LoginUserDTO loginUserDto)
+        public async Task<TokenDTO> GenerateTokenAsync(LoginUserDTO loginUserDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _users.GetUserAsync(loginUserDto, true);
+
+                if (user == null) throw new UnauthorizedAccessException();
+
+                var claims = GetClaims(user, true);
+
+                var token = CreateToken(claims);
+
+                var succeeded = await AddTokenToUserAsync(user.Id, token);
+                if (!succeeded) throw new SecurityTokenException("Could not add token to user");
+
+                return token;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public Task<TokenDTO> GetTokenAsync(LoginUserDTO loginUserDto, string userId)
+        public async Task<TokenDTO> GetTokenAsync(LoginUserDTO loginUserDto, string userId)
         {
             throw new NotImplementedException();
         }
