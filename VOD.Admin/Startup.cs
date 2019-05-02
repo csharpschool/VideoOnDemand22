@@ -70,6 +70,7 @@ namespace VOD.Admin
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAdminService, AdminAPIService>();
             services.AddScoped<IHttpClientFactoryService, HttpClientFactoryService>();
+            services.AddScoped<IJwtTokenService, JwtTokenService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

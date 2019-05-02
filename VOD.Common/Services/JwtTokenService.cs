@@ -81,7 +81,20 @@ namespace VOD.Common.Services
         }
         public async Task<TokenDTO> CheckTokenAsync(TokenDTO token)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (token.TokenHasExpired)
+                {
+                    token = await GetTokenAsync();
+                    if (token.TokenHasExpired) token = await CreateTokenAsync();
+                }
+
+                return token;
+            }
+            catch
+            {
+                return default;
+            }
         }
         #endregion
     }
