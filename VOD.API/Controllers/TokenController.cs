@@ -43,7 +43,7 @@ namespace VOD.API.Controllers
         {
             try
             {
-                var jwt = await _tokenService.GetTokenAsync(LoginUserDTO, userId);
+                var jwt = await _tokenService.GetTokenAsync(loginUserDto, userId);
                 if (jwt.Token == null) return Unauthorized();
                 return jwt;
             }
