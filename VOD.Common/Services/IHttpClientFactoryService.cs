@@ -15,5 +15,6 @@ namespace VOD.Common.Services
         Task<string> DeleteAsync(string uri, string serviceName, string token = "");
 
         Task<TokenDTO> CreateTokenAsync(LoginUserDTO user, string uri, string serviceName, string token = "");
+        Task<TokenDTO> GetTokenAsync(LoginUserDTO user, string uri, string serviceName, string token = "");
     }
 }

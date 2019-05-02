@@ -129,6 +129,23 @@ namespace VOD.Common.Services
                 throw;
             }
         }
+
+        public async Task<TokenDTO> GetTokenAsync(LoginUserDTO user, string uri, string serviceName, string token = "")
+        {
+            try
+            {
+                if (new string[] { uri, serviceName }.IsNullOrEmptyOrWhiteSpace())
+                    throw new HttpResponseException(HttpStatusCode.NotFound, "Could not find the resource");
+
+                var httpClient = _httpClientFactory.CreateClient(serviceName);
+
+                return await httpClient.GetAsync<TokenDTO, LoginUserDTO>(uri.ToLower(), _cancellationToken, null, token);
+            }
+            catch
+            {
+                throw;
+            }
+        }
         #endregion
     }
 }
