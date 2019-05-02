@@ -108,7 +108,19 @@ namespace VOD.API.Services
 
         public async Task<TokenDTO> GetTokenAsync(LoginUserDTO loginUserDto, string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _users.GetUserAsync(loginUserDto, true);
+
+                if (user == null) throw new UnauthorizedAccessException();
+                if (!userId.Equals(user.Id)) throw new UnauthorizedAccessException();
+
+                return new TokenDTO(user.Token, user.TokenExpires);
+            }
+            catch
+            {
+                throw;
+            }
         }
         #endregion
     }
