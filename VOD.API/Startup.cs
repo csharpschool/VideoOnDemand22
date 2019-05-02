@@ -40,6 +40,12 @@ namespace VOD.API
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<VODContext>();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("VODUser", policy => policy.RequireClaim("VODUser", "true"));
+                options.AddPolicy("Admin", policy => policy.RequireClaim("Admin", "true"));
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //services.AddAutoMapper(); // Version 6.0.0: AutoMapper.Extensions.Microsoft.DependencyInjection

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using VOD.Common.Services;
 
 namespace VOD.API.Controllers
 {
+    [Authorize(Policy = "Admin")]
     [Route("api/instructors")]
     [ApiController]
     public class InstructorsController : ControllerBase

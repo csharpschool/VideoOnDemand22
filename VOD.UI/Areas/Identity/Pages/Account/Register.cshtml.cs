@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -71,6 +72,10 @@ namespace VOD.UI.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    // Add claims to the user
+                    var identityResult = await _userManager.AddClaimAsync(user, new Claim("VODUser", "true"));
+                    if (identityResult.Succeeded) _logger.LogInformation("Added the VODUser Claim to the User.");
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

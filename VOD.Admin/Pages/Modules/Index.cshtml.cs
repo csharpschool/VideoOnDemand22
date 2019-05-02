@@ -35,9 +35,9 @@ namespace VOD.Admin.Pages.Modules
             }
             catch
             {
-                return RedirectToPage("/Index", new { alert = "You do not have access to this page." });
+                Alert = "You do not have access to this page.";
+                return RedirectToPage("/Index");
             }
         }
-
     }
 }
