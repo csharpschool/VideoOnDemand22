@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System;
@@ -11,6 +12,7 @@ using VOD.Common.Services;
 
 namespace VOD.API.Controllers
 {
+    [Authorize(Policy = "Admin")]
     [Route("api/courses")]
     [ApiController]
     public class CoursesController : ControllerBase
