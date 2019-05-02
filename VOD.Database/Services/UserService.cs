@@ -7,6 +7,7 @@ using VOD.Database.Contexts;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using VOD.Common.Extensions;
+using System.Security.Claims;
 
 namespace VOD.Database.Services
 {
@@ -34,6 +35,7 @@ namespace VOD.Database.Services
                 {
                     Id = user.Id,
                     Email = user.Email,
+                    Token = new TokenDTO(user.Token, user.TokenExpires),
                     IsAdmin = _db.UserRoles.Any(ur =>
                         ur.UserId.Equals(user.Id) &&
                         ur.RoleId.Equals(1.ToString()))
@@ -48,6 +50,7 @@ namespace VOD.Database.Services
                 {
                     Id = user.Id,
                     Email = user.Email,
+                    Token = new TokenDTO(user.Token, user.TokenExpires),
                     IsAdmin = _db.UserRoles.Any(ur =>
                         ur.UserId.Equals(user.Id) &&
                         ur.RoleId.Equals(1.ToString()))
@@ -61,6 +64,7 @@ namespace VOD.Database.Services
                 {
                     Id = user.Id,
                     Email = user.Email,
+                    Token = new TokenDTO(user.Token, user.TokenExpires),
                     IsAdmin = _db.UserRoles.Any(ur =>
                         ur.UserId.Equals(user.Id) &&
                         ur.RoleId.Equals(1.ToString()))
@@ -81,12 +85,57 @@ namespace VOD.Database.Services
 
             dbUser.Email = user.Email;
 
-            #region Admin Role
+            #region Create New Token
+            if (user.Token != null && user.Token.Token != null && user.Token.Token.Length > 0)
+            {
+                dbUser.Token = user.Token.Token;
+                dbUser.TokenExpires = user.Token.TokenExpires;
+
+                // Create new claims for the token and expiration date
+                var newTokenClaim = new Claim("Token", user.Token.Token);
+                var newTokenExpires = new Claim("TokenExpires", user.Token.TokenExpires.ToString("yyyy-MM-dd hh:mm:ss"));
+
+                // Fetch the token and expiration claims if they exist
+                var userClaims = await _userManager.GetClaimsAsync(dbUser);
+                var currentTokenClaim = userClaims.SingleOrDefault(c => c.Type.Equals("Token"));
+                var currentTokenClaimExpires = userClaims.SingleOrDefault(c => c.Type.Equals("TokenExpires"));
+
+                // Add or replace the claims for the token and expiration date
+                if (currentTokenClaim == null)
+                    await _userManager.AddClaimAsync(dbUser, newTokenClaim);
+                else
+                    await _userManager.ReplaceClaimAsync(dbUser,
+                        currentTokenClaim, newTokenClaim);
+
+                if (currentTokenClaimExpires == null)
+                    await _userManager.AddClaimAsync(dbUser, newTokenExpires);
+                else
+                    await _userManager.ReplaceClaimAsync(dbUser,
+                        currentTokenClaimExpires, newTokenExpires);
+            }
+            #endregion
+
+            #region Admin Role and Claim
             var admin = "Admin";
             var isAdmin = await _userManager.IsInRoleAsync(dbUser, admin);
+            var adminClaim = new Claim(admin, "true");
 
-            if (isAdmin && !user.IsAdmin) await _userManager.RemoveFromRoleAsync(dbUser, admin);
-            else if (!isAdmin && user.IsAdmin) await _userManager.AddToRoleAsync(dbUser, admin);
+            if (isAdmin && !user.IsAdmin)
+            {
+                // Remove Admin Role
+                await _userManager.RemoveFromRoleAsync(dbUser, admin);
+
+                // Remove Admin Claim
+                await _userManager.RemoveClaimAsync(dbUser, adminClaim);
+            }
+            else if (!isAdmin && user.IsAdmin)
+            {
+                // Add Admin Role
+                await _userManager.AddToRoleAsync(dbUser, admin);
+
+                // Add Admin Claim
+                await _userManager.AddClaimAsync(dbUser, adminClaim);
+            }
             #endregion
 
             var result = await _db.SaveChangesAsync();
@@ -103,6 +152,10 @@ namespace VOD.Database.Services
                 // Remove roles from user
                 var userRoles = await _userManager.GetRolesAsync(dbUser);
                 var roleRemoved = await _userManager.RemoveFromRolesAsync(dbUser, userRoles);
+
+                // Remove the user's claims
+                var userClaims = _db.UserClaims.Where(ur => ur.UserId.Equals(dbUser.Id));
+                _db.UserClaims.RemoveRange(userClaims);
 
                 // Remove the user
                 var deleted = await _userManager.DeleteAsync(dbUser);
@@ -130,6 +183,7 @@ namespace VOD.Database.Services
                     if (!user.PasswordHash.Equals(loginUser.PasswordHash)) return null;
                 }
 
+                // Include the user's claims
                 if (includeClaims) user.Claims = await _userManager.GetClaimsAsync(user);
 
                 return user;
