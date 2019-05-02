@@ -72,6 +72,14 @@ namespace VOD.API.Services
                 throw;
             }
         }
+        private async Task<bool> AddTokenToUserAsync(string userId, TokenDTO token)
+        {
+            var userDTO = await _users.GetUserAsync(userId);
+            userDTO.Token.Token = token.Token;
+            userDTO.Token.TokenExpires = token.TokenExpires;
+
+            return await _users.UpdateUserAsync(userDTO);
+        }
         #endregion
 
         #region Token Methods
