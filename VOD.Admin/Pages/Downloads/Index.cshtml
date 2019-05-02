@@ -2,7 +2,7 @@
 @model IndexModel
 @inject SignInManager<VODUser> SignInManager
 @{
-    ViewData["Title"] = "Videos";
+    ViewData["Title"] = "Downloads";
 }
 
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
