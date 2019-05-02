@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using VOD.Common.DTOModels;
 using VOD.Common.Entities;
@@ -25,15 +26,32 @@ namespace VOD.Common.Services
         #endregion
 
         #region Token Methods
-        public Task<TokenDTO> CheckTokenAsync(TokenDTO token)
+        public async Task<TokenDTO> CreateTokenAsync()
+        {
+            try
+            {
+                var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var user = await _userManager.FindByIdAsync(userId);
+                var tokenUser = new LoginUserDTO
+                {
+                    Email = user.Email,
+                    Password = "",
+                    PasswordHash = user.PasswordHash
+                };
+                var token = await _http.CreateTokenAsync(tokenUser, "api/token", "AdminClient");
+
+                return token;
+            }
+            catch
+            {
+                return default;
+            }
+        }
+        public async Task<TokenDTO> GetTokenAsync()
         {
             throw new NotImplementedException();
         }
-        public Task<TokenDTO> CreateTokenAsync()
-        {
-            throw new NotImplementedException();
-        }
-        public Task<TokenDTO> GetTokenAsync()
+        public async Task<TokenDTO> CheckTokenAsync(TokenDTO token)
         {
             throw new NotImplementedException();
         }
