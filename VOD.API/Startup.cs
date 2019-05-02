@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using VOD.API.Services;
 using VOD.Common.Entities;
 using VOD.Common.Services;
 using VOD.Database.Contexts;
@@ -50,6 +51,7 @@ namespace VOD.API
             services.AddScoped<IDbWriteService, DbWriteService>();
             services.AddScoped<IAdminService, AdminEFService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddTransient<ITokenService, TokenService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
