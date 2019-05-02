@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -43,7 +44,34 @@ namespace VOD.API.Services
 
             return claims;
         }
+        private TokenDTO CreateToken(IList<Claim> claims)
+        {
+            try
+            {
+                var signingKey = Convert.FromBase64String(_configuration["Jwt:SigningSecret"]);
+                var credentials = new SigningCredentials(new SymmetricSecurityKey(signingKey), SecurityAlgorithms.HmacSha256Signature);
+                var duration = int.Parse(_configuration["Jwt:Duration"]);
+                var now = DateTime.UtcNow;
 
+                var jwtToken = new JwtSecurityToken
+                (
+                    issuer: "http://your-domain.com",
+                    audience: "http://audience-domain.com",
+                    notBefore: now,
+                    expires: now.AddDays(duration),
+                    claims: claims,
+                    signingCredentials: credentials
+                );
+
+                var jwtTokenHandler = new JwtSecurityTokenHandler();
+                var token = jwtTokenHandler.WriteToken(jwtToken);
+                return new TokenDTO(token, jwtToken.ValidTo);
+            }
+            catch
+            {
+                throw;
+            }
+        }
         #endregion
 
         #region Token Methods
