@@ -38,7 +38,20 @@ namespace VOD.API.Controllers
                 return Unauthorized();
             }
         }
-
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<TokenDTO>> GetTokenAsync(string userId, LoginUserDTO loginUserDto)
+        {
+            try
+            {
+                var jwt = await _tokenService.GetTokenAsync(LoginUserDTO, userId);
+                if (jwt.Token == null) return Unauthorized();
+                return jwt;
+            }
+            catch
+            {
+                return Unauthorized();
+            }
+        }
         #endregion
     }
 
