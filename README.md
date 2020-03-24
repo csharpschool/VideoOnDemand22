@@ -3,7 +3,7 @@ This repository contains the code to the book ASP.NET Core 2.2 MVC, Razor Pages,
 
 There have been some issues with the package references in the Common and Database projects that are fixed.
 
-To run the downloaded or cloed code, do this:
+To run the downloaded or cloned code, do this:
 1. Update to Visual studio 2019 (16.5.0)
 2. Install the latest SDK for ASP.NET Core 2.2 (2.2.8) here: https://dotnet.microsoft.com/download/dotnet-core/2.2
 3. When the installation is complete, download or clone the code in this repository.
