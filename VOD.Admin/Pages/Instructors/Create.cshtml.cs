@@ -25,7 +25,7 @@ namespace VOD.Admin.Pages.Instructors
         #endregion
 
         #region Actions
-        public async Task OnGetAsync()
+        public void OnGetAsync()
         {
         }
 

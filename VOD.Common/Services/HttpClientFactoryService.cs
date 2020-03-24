@@ -15,7 +15,7 @@ namespace VOD.Common.Services
     {
         #region Properties
         private readonly IHttpClientFactory _httpClientFactory;
-        private CancellationTokenSource _cancellationTokenSource;
+        private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly CancellationToken _cancellationToken;
         #endregion
 

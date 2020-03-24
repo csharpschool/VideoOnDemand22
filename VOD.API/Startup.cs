@@ -38,9 +38,9 @@ namespace VOD.API
             services.AddDbContext<VODContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<VODUser>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<VODContext>();
+            //services.AddDefaultIdentity<VODUser>()
+            //    .AddRoles<IdentityRole>()
+            //    .AddEntityFrameworkStores<VODContext>();
 
             #region JWT Token Authentication
             services.AddAuthentication(options =>
